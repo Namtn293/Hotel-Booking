@@ -20,15 +20,13 @@ import java.util.List;
 public class AuthenticationService {
     private final UserRepository userRepository;
     private final PasswordEncoder passwordEncoder;
-    private final UserInfoRepository userInfoRepository;
     private final JwtService jwtService;
     private final TokenRepository tokenRepository;
 
     @Autowired
-    public AuthenticationService(TokenRepository tokenRepository,JwtService jwtService,UserRepository userRepository,PasswordEncoder passwordEncoder,UserInfoRepository userInfoRepository) {
+    public AuthenticationService(TokenRepository tokenRepository,JwtService jwtService,UserRepository userRepository,PasswordEncoder passwordEncoder) {
         this.userRepository = userRepository;
         this.passwordEncoder = passwordEncoder;
-        this.userInfoRepository = userInfoRepository;
         this.jwtService = jwtService;
         this.tokenRepository = tokenRepository;
     }

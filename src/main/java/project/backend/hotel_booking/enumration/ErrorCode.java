@@ -4,6 +4,7 @@ import lombok.Getter;
 
 @Getter
 public enum ErrorCode {
+    USER_ALREADY_EXIST("409","User already exist"),
     USER_NOT_ALREADY_EXIST("409","User not already exist"),
     FORBIDDEN("403","You do not have permission to perform this action"),
     TOKEN_NOT_CORRECT("401","Token not correct"),

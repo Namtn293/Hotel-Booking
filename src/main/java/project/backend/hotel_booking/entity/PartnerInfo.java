@@ -28,5 +28,5 @@ public class PartnerInfo extends EntityBase {
     @Column(name = "STATUS")
     private PartnerStatus partnerStatus;
 
-
+    private Long userId;
 }

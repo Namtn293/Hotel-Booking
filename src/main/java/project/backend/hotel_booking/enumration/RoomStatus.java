@@ -1,5 +1,5 @@
 package project.backend.hotel_booking.enumration;
 
-public enum PartnerStatus {
-    ACTIVE,MAINTENANCE
+public enum RoomStatus {
+    AVAILABLE,UNAVAILABLE
 }

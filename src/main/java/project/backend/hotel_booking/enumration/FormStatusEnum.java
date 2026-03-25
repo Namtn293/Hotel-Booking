@@ -1,0 +1,4 @@
+package project.backend.hotel_booking.enumration;
+
+public class FormStatusEnum {
+}

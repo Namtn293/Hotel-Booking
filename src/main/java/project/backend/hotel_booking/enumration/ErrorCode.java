@@ -14,8 +14,10 @@ public enum ErrorCode {
     TOKEN_EXPIRED("401","Token expired"),
     TOKEN_INVAlID("401","Token invalid"),
     PASSWORD_NOT_EQUAL("401","Password not equal"),
-    PARTNER_NOT_ALREADY_EXIST("409","Partner not already exist")
-    ;
+    PARTNER_NOT_ALREADY_EXIST("409","Partner not already exist"),
+    USER_ALREADY_HAVE_RATING("409","User already have rating to this hotel"),
+
+            ;
 
     private final String code;
     private final String message;

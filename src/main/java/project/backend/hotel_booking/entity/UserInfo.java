@@ -24,4 +24,6 @@ public class UserInfo extends EntityBase {
     private String email;
 
     private Long userId;
+
+    private String avatar;
 }

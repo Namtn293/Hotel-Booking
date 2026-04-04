@@ -6,7 +6,7 @@ import project.backend.hotel_booking.core.util.EntityBase;
 import project.backend.hotel_booking.enumration.ActiveStatus;
 import project.backend.hotel_booking.enumration.HotelEnum;
 
-import java.time.LocalDateTime;
+import java.time.LocalDate;
 
 @Entity
 public class Hotel extends EntityBase {
@@ -16,13 +16,11 @@ public class Hotel extends EntityBase {
 
     private String description;
 
-    private double rating;
-
     private String email;
 
     private String phoneNumber;
 
-    private LocalDateTime createdDate;
+    private LocalDate createdDate;
 
     private HotelEnum hotelEnum;
 
@@ -30,6 +28,6 @@ public class Hotel extends EntityBase {
 
     @PrePersist
     public void prePersist(){
-        this.createdDate=LocalDateTime.now();
+        this.createdDate=LocalDate.now();
     }
 }

@@ -9,6 +9,7 @@ import project.backend.hotel_booking.model.vo.UserInfoVO;
 import project.backend.hotel_booking.repository.UserInfoRepository;
 import project.backend.hotel_booking.service.UserInfoService;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Objects;
@@ -52,5 +53,8 @@ public class UserInfoServiceImplement implements UserInfoService {
         userInfoRepository.save(userInfo);
     }
 
-
+    @Override
+    public Long accountCount() {
+        return userInfoRepository.countUserInfoByCreatedDate(LocalDate.now());
+    }
 }

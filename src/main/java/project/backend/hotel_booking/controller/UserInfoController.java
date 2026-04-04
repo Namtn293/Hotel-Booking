@@ -1,9 +1,6 @@
 package project.backend.hotel_booking.controller;
 
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 import project.backend.hotel_booking.core.util.ResponseUtil;
 import project.backend.hotel_booking.core.util.SuccessResponse;
 import project.backend.hotel_booking.model.vo.UserInfoVO;
@@ -30,4 +27,10 @@ public class UserInfoController {
         userInfoService.lockUser(userId);
         return ResponseUtil.ok("Lock/Unlock success");
     }
+
+    @GetMapping("new-account-total")
+    public SuccessResponse<Long> newAccountTotal(){
+        return ResponseUtil.ok("Get success", userInfoService.accountCount());
+    }
+
 }

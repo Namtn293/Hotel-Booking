@@ -46,16 +46,15 @@ public class RoomController {
 
     @PostMapping("/update/{roomId}")
     SuccessResponse<String> updateRoomById(@PathVariable Long roomId, @RequestBody RoomUpdateDTO roomUpdateDTO){
-        roomService.getRoomById(roomId);
+        roomService.updateRoomById(roomId,roomUpdateDTO);
         return ResponseUtil.ok(
                 "update room success"
-
         );
     }
 
     @PostMapping("/delete/{roomId}")
     SuccessResponse<RoomVO> deleteRoomById(@PathVariable Long roomId){
-        roomService.getRoomById(roomId);
+        roomService.deleteRoomById(roomId);
         return ResponseUtil.ok(
                 "delete room success"
         );

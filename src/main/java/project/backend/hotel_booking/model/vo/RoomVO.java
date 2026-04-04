@@ -17,4 +17,5 @@ public class RoomVO {
     private ActiveStatus activeStatus;
     private double price;
     private QualityEnum qualityEnum;
+    private Long hotelId;
 }

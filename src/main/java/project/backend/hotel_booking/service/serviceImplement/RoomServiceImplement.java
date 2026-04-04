@@ -63,6 +63,7 @@ public class RoomServiceImplement implements RoomService {
             room.setCapacity(roomUpdateDTO.getCapacity());
         if(roomUpdateDTO.getActiveStatus()!=null)
             room.setActiveStatus(roomUpdateDTO.getActiveStatus());
+        System.out.println(roomUpdateDTO.getPrice());
         if(roomUpdateDTO.getPrice()>0)
             room.setPrice(roomUpdateDTO.getPrice());
         if(roomUpdateDTO.getQualityEnum()!=null)
@@ -83,6 +84,7 @@ public class RoomServiceImplement implements RoomService {
         roomVO.setCapacity(room.getCapacity());
         roomVO.setActiveStatus(room.getActiveStatus());
         roomVO.setQualityEnum(room.getQualityEnum());
-        return null;
+        roomVO.setHotelId(room.getHotelId());
+        return roomVO;
     }
 }

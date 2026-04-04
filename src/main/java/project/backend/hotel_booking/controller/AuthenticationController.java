@@ -7,7 +7,8 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 import project.backend.hotel_booking.core.auth.model.dto.LoginDTO;
-import project.backend.hotel_booking.core.auth.model.dto.RegisterDTO;
+import project.backend.hotel_booking.core.auth.model.dto.RegisterPartnerDTO;
+import project.backend.hotel_booking.core.auth.model.dto.RegisterUserDTO;
 import project.backend.hotel_booking.core.auth.service.AuthenticationService;
 import project.backend.hotel_booking.core.util.BusinessException;
 import project.backend.hotel_booking.core.util.ResponseUtil;
@@ -24,9 +25,15 @@ public class AuthenticationController {
         this.authenticationService = authenticationService;
     }
 
-    @PostMapping("/register")
-    public SuccessResponse<String> register(@RequestBody RegisterDTO dto){
-        authenticationService.register(dto);
+    @PostMapping("/register/user")
+    public SuccessResponse<String> registerUser(@RequestBody RegisterUserDTO dto){
+        authenticationService.registerUser(dto);
+        return ResponseUtil.ok("Register success");
+    }
+
+    @PostMapping("/register/partner")
+    public SuccessResponse<String> registerPartner(@RequestBody RegisterPartnerDTO dto){
+        authenticationService.registerPartner(dto);
         return ResponseUtil.ok("Register success");
     }
 

@@ -1,0 +1,15 @@
+package project.backend.hotel_booking.service;
+
+import project.backend.hotel_booking.model.vo.PartnerInfoVO;
+
+import java.util.List;
+
+public interface PartnerInfoService {
+    List<PartnerInfoVO> getAllPartnerPending();
+
+    void approvalPartner(String partnerId);
+
+    void rejectPartner(String partnerId);
+
+    void bandPartner(String partnerId);
+}

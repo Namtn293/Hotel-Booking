@@ -4,7 +4,6 @@ import jakarta.persistence.Entity;
 import project.backend.hotel_booking.core.util.EntityBase;
 import project.backend.hotel_booking.enumration.ActiveStatus;
 import project.backend.hotel_booking.enumration.QualityEnum;
-import project.backend.hotel_booking.enumration.RoomStatus;
 
 @Entity
 public class Room extends EntityBase {

@@ -33,11 +33,11 @@ public class SecurityConfig {
                 .cors(cors -> cors.configurationSource(corsConfigurationSource()))
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
-                                .requestMatchers("/api/auth/**").permitAll()
-                                .requestMatchers("/api/user-info/**").hasRole("STUDENT")
-                                .anyRequest()
-                                .authenticated()
-//                        .anyRequest().permitAll()
+//                                .requestMatchers("/api/auth/**").permitAll()
+//                                .requestMatchers("/api/user-info/**").hasRole("STUDENT")
+//                                .anyRequest()
+//                                .authenticated()
+                        .anyRequest().permitAll()
                 )
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);

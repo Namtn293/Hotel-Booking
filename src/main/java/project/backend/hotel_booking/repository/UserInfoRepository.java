@@ -12,4 +12,5 @@ public interface UserInfoRepository extends JpaRepository<UserInfo,Long> {
     Optional<UserInfo> getUserInfoByUserId(Long userId);
 
     Long countUserInfoByCreatedDate(LocalDate createdDate);
+
 }

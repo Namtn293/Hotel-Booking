@@ -10,9 +10,7 @@ import project.backend.hotel_booking.repository.UserInfoRepository;
 import project.backend.hotel_booking.service.UserInfoService;
 
 import java.time.LocalDate;
-import java.util.ArrayList;
-import java.util.List;
-import java.util.Objects;
+import java.util.*;
 
 @Service
 public class UserInfoServiceImplement implements UserInfoService {
@@ -38,13 +36,14 @@ public class UserInfoServiceImplement implements UserInfoService {
                     .build();
             listVo.add(userInfoVO);
         });
+        listVo.sort(Comparator.comparing(UserInfoVO::getUserId));
         return listVo;
     }
 
     @Override
     public void lockUser(String userId) {
         Long id=Long.parseLong(userId.trim().substring(2));
-        UserInfo userInfo=userInfoRepository.findById(id).orElseThrow(()-> new BusinessException(ErrorCode.USER_NOT_ALREADY_EXIST));
+        UserInfo userInfo=userInfoRepository.getUserInfoByUserId(id).orElseThrow(()-> new BusinessException(ErrorCode.USER_NOT_ALREADY_EXIST));
         if (Objects.equals(UserStatusEnum.ACTIVE,userInfo.getUserStatusEnum())){
             userInfo.setUserStatusEnum(UserStatusEnum.BANNED);
         } else {

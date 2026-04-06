@@ -8,4 +8,6 @@ public interface UserInfoService {
     List<UserInfoVO> getAllUserInfo();
 
     void lockUser(String userId);
+
+    Long accountCount();
 }

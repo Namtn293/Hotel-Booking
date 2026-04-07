@@ -59,4 +59,12 @@ public class RoomController {
                 "delete room success"
         );
     }
+
+    @GetMapping("/all")
+    SuccessResponse<List<RoomVO>> getAllRooms(){
+        return ResponseUtil.ok(
+                "Get all rooms success",
+                roomService.getAllRooms()
+        );
+    }
 }

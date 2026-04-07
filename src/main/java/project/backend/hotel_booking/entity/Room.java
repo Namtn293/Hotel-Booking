@@ -26,4 +26,6 @@ public class Room extends EntityBase {
     private Long hotelId;
 
     private QualityEnum qualityEnum;
+
+    private Long imageId;
 }

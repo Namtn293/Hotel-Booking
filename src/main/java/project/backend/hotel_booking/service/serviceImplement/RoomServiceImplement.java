@@ -8,6 +8,7 @@ import project.backend.hotel_booking.enumration.ErrorCode;
 import project.backend.hotel_booking.model.dto.RoomCreateDTO;
 import project.backend.hotel_booking.model.dto.RoomUpdateDTO;
 import project.backend.hotel_booking.model.vo.RoomVO;
+import project.backend.hotel_booking.repository.HotelsRepository;
 import project.backend.hotel_booking.repository.RoomRepository;
 import project.backend.hotel_booking.service.RoomService;
 
@@ -18,9 +19,11 @@ import java.util.Optional;
 @Service
 public class RoomServiceImplement implements RoomService {
     private final RoomRepository roomRepository;
+    private final HotelsRepository hotelsRepository;
 
-    public RoomServiceImplement(RoomRepository roomRepository) {
+    public RoomServiceImplement(RoomRepository roomRepository, HotelsRepository hotelsRepository) {
         this.roomRepository = roomRepository;
+        this.hotelsRepository = hotelsRepository;
     }
 
     @Override
@@ -77,6 +80,16 @@ public class RoomServiceImplement implements RoomService {
     }
 
     @Override
+    public List<RoomVO> getAllRooms() {
+        List<Room> rooms = roomRepository.findAll();
+        List<RoomVO> roomVOS = new ArrayList<>();
+        rooms.forEach((r)->{
+            roomVOS.add(convertToRoomVO(r));
+        });
+        return roomVOS;
+    }
+
+    @Override
     public RoomVO convertToRoomVO(Room room) {
         RoomVO roomVO = new RoomVO();
         roomVO.setRoomName(room.getRoomName());
@@ -84,7 +97,7 @@ public class RoomServiceImplement implements RoomService {
         roomVO.setCapacity(room.getCapacity());
         roomVO.setActiveStatus(room.getActiveStatus());
         roomVO.setQualityEnum(room.getQualityEnum());
-        roomVO.setHotelId(room.getHotelId());
+        roomVO.setHotelName(hotelsRepository.getHotelNameById(room.getHotelId()));
         return roomVO;
     }
 }

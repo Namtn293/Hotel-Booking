@@ -4,18 +4,24 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
-import project.backend.hotel_booking.enumration.ActiveStatus;
 import project.backend.hotel_booking.enumration.QualityEnum;
+
+import java.time.LocalDate;
 
 @Data
 @Builder
 @NoArgsConstructor
 @AllArgsConstructor
-public class RoomVO {
+public class OrderRoomPartnerVO {
+    private String userName;
+
     private String roomName;
+
     private Long capacity;
-    private ActiveStatus activeStatus;
-    private double price;
+
     private QualityEnum qualityEnum;
-    private String hotelName;
+
+    private double price;
+
+    private double orderDate;
 }

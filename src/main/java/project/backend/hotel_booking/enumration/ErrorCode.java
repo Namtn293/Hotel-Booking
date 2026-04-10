@@ -7,6 +7,7 @@ public enum ErrorCode {
     NULL_FIELD("400","Fill all necessary field"),
     ROOM_NOT_EXIST("404","Room not exist"),
     HOTEL_NOT_EXIST("404","Hotel not exist"),
+    ORDER_NOT_EXIST("404","ORDER not exist"),
     USER_ALREADY_EXIST("409","User already exist"),
     USER_NOT_ALREADY_EXIST("409","User not already exist"),
     FORBIDDEN("403","You do not have permission to perform this action"),

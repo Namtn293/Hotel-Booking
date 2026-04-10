@@ -1,6 +1,7 @@
 package project.backend.hotel_booking.model.dto;
 
 import lombok.*;
+import org.springframework.web.multipart.MultipartFile;
 import project.backend.hotel_booking.enumration.QualityEnum;
 
 @Data
@@ -12,4 +13,5 @@ public class RoomCreateDTO {
     private Long capacity;
     private double price;
     private QualityEnum qualityEnum;
+    private MultipartFile image;
 }

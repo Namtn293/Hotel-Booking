@@ -36,6 +36,8 @@ public class Hotel extends EntityBase {
 
     private String address;
 
+    private Double star;
+
     @PrePersist
     public void prePersist(){
         this.createdDate=LocalDate.now();

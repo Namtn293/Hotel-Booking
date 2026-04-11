@@ -94,4 +94,5 @@ public class HotelController {
     public SuccessResponse<Long> hotelPendingTotal(){
         return ResponseUtil.ok("Get success",hotelService.getNewHotelPending());
     }
+
 }

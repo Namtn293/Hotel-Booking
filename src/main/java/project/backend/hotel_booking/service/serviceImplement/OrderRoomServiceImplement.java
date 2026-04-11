@@ -11,6 +11,7 @@ import project.backend.hotel_booking.enumration.ErrorCode;
 import project.backend.hotel_booking.enumration.PaymentStatus;
 import project.backend.hotel_booking.enumration.RoleEnum;
 import project.backend.hotel_booking.model.dto.OrderRoomDTO;
+import project.backend.hotel_booking.model.vo.OrderRoomDataVO;
 import project.backend.hotel_booking.model.vo.OrderRoomPartnerVO;
 import project.backend.hotel_booking.model.vo.OrderRoomUserVO;
 import project.backend.hotel_booking.model.vo.RoomVO;
@@ -23,6 +24,8 @@ import project.backend.hotel_booking.service.OrderRoomService;
 import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
+import java.util.Map;
+import java.util.TreeMap;
 
 @Service
 public class OrderRoomServiceImplement implements OrderRoomService {
@@ -176,5 +179,27 @@ public class OrderRoomServiceImplement implements OrderRoomService {
     @Override
     public Long getTodayReservedOrder() {
         return orderRoomRepository.getTodayReversedOrder(LocalDate.now());
+    }
+
+    @Override
+    public List<OrderRoomDataVO> getRevenueTotal() {
+        LocalDate today=LocalDate.now();
+        LocalDate sevenDaysAge=today.minusDays(6);
+        Map<LocalDate,Double> map=new TreeMap<>();
+        for (int i=0;i<=6;i++){
+            map.put(today.minusDays(i),0.0);
+        }
+        List<OrderRoomDataVO> list=orderRoomRepository.getRevenueTotal(sevenDaysAge,today);
+        list.forEach(c->{
+            map.put(c.getDate(),c.getRevenueTotal());
+        });
+        List<OrderRoomDataVO> voList=new ArrayList<>();
+        map.forEach((c,d)->{
+            voList.add(OrderRoomDataVO.builder()
+                            .date(c)
+                            .revenueTotal(d)
+                    .build());
+        });
+        return voList;
     }
 }

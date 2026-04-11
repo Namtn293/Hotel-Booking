@@ -6,10 +6,12 @@ import project.backend.hotel_booking.core.util.BusinessException;
 import project.backend.hotel_booking.entity.PartnerInfo;
 import project.backend.hotel_booking.enumration.ErrorCode;
 import project.backend.hotel_booking.enumration.PartnerStatus;
+import project.backend.hotel_booking.model.vo.PartnerInfoManageVO;
 import project.backend.hotel_booking.model.vo.PartnerInfoVO;
 import project.backend.hotel_booking.repository.PartnerInfoRepository;
 import project.backend.hotel_booking.service.PartnerInfoService;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -45,11 +47,21 @@ public class PartnerInfoServiceImplement implements PartnerInfoService {
     }
 
     @Override
-    public void bandPartner(String partnerId) {
-        Long id=Long.parseLong(partnerId.trim().substring(2));
-        PartnerInfo partnerInfo=partnerInfoRepository.findById(id).orElseThrow(()-> new BusinessException(ErrorCode.PARTNER_NOT_ALREADY_EXIST));
-        partnerInfo.setPartnerStatus(PartnerStatus.BANDING);
+    public void bandPartner(Long partnerId) {
+        PartnerInfo partnerInfo=partnerInfoRepository.findById(partnerId).orElseThrow(()-> new BusinessException(ErrorCode.PARTNER_NOT_ALREADY_EXIST));
+        if(partnerInfo.getPartnerStatus().equals(PartnerStatus.BANDING)){
+            partnerInfo.setPartnerStatus(PartnerStatus.ACTIVE);
+        } else {
+            partnerInfo.setPartnerStatus(PartnerStatus.BANDING);
+        }
         partnerInfoRepository.save(partnerInfo);
+    }
+
+    @Override
+    public List<PartnerInfoManageVO> gerAllPartnerInfo() {
+        LocalDate date=LocalDate.now();
+        long month=date.getMonthValue();
+        return partnerInfoRepository.getPartnerInfoAdmin(month);
     }
 
 

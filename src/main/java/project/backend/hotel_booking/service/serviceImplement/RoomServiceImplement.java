@@ -10,6 +10,7 @@ import project.backend.hotel_booking.model.dto.RoomUpdateDTO;
 import project.backend.hotel_booking.model.vo.RoomVO;
 import project.backend.hotel_booking.repository.HotelsRepository;
 import project.backend.hotel_booking.repository.RoomRepository;
+import project.backend.hotel_booking.service.NotificationService;
 import project.backend.hotel_booking.service.RoomService;
 
 import java.util.ArrayList;
@@ -20,10 +21,12 @@ import java.util.Optional;
 public class RoomServiceImplement implements RoomService {
     private final RoomRepository roomRepository;
     private final HotelsRepository hotelsRepository;
+    private final NotificationService notificationService;
 
-    public RoomServiceImplement(RoomRepository roomRepository, HotelsRepository hotelsRepository) {
+    public RoomServiceImplement(NotificationService notificationService,RoomRepository roomRepository, HotelsRepository hotelsRepository) {
         this.roomRepository = roomRepository;
         this.hotelsRepository = hotelsRepository;
+        this.notificationService = notificationService;
     }
 
     @Override
@@ -36,6 +39,7 @@ public class RoomServiceImplement implements RoomService {
                 .activeStatus(ActiveStatus.PENDING)
                 .hotelId(hotelId)
                 .build();
+        notificationService.createNotification("Bạn đã tạo thành công phòng mới "+String.format("ROOM%2d"+room.getId()));
         roomRepository.save(room);
     }
 
@@ -71,11 +75,13 @@ public class RoomServiceImplement implements RoomService {
             room.setPrice(roomUpdateDTO.getPrice());
         if(roomUpdateDTO.getQualityEnum()!=null)
             room.setQualityEnum(roomUpdateDTO.getQualityEnum());
+        notificationService.createNotification("Bạn đã cập nhật thành công phòng "+String.format("ROOM%2d"+room.getId()));
         roomRepository.save(room);
     }
 
     @Override
     public void deleteRoomById(Long id) {
+        notificationService.createNotification("Bạn đã xóa thành công phòng "+String.format("ROOM%2d"+id));
         roomRepository.deleteById(id);
     }
 

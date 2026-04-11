@@ -3,9 +3,7 @@ package project.backend.hotel_booking.model.dto;
 import lombok.Data;
 
 @Data
-public class RatingDTO {
-    private Long rating;
-    private String reason;
+public class RatingGetDTO {
     private Long hotelId;
     private Long roomId;
 }

@@ -3,6 +3,7 @@ package project.backend.hotel_booking.service.serviceImplement;
 import org.springframework.stereotype.Service;
 import project.backend.hotel_booking.core.auth.entity.User;
 import project.backend.hotel_booking.core.auth.repository.UserRepository;
+import org.springframework.transaction.annotation.Transactional;
 import project.backend.hotel_booking.core.configuration.ThreadContext;
 import project.backend.hotel_booking.core.util.BusinessException;
 import project.backend.hotel_booking.entity.*;
@@ -14,6 +15,9 @@ import project.backend.hotel_booking.model.vo.OrderRoomPartnerVO;
 import project.backend.hotel_booking.model.vo.OrderRoomUserVO;
 import project.backend.hotel_booking.model.vo.RoomVO;
 import project.backend.hotel_booking.repository.*;
+import project.backend.hotel_booking.repository.OrderRoomRepository;
+import project.backend.hotel_booking.repository.RoomRepository;
+import project.backend.hotel_booking.service.NotificationService;
 import project.backend.hotel_booking.service.OrderRoomService;
 
 import java.util.ArrayList;
@@ -58,22 +62,27 @@ public class OrderRoomServiceImplement implements OrderRoomService {
         OrderRoom orderRoom = orderRoomRepository.findById(orderId)
                 .orElseThrow(()->new BusinessException(ErrorCode.ORDER_NOT_EXIST));
         orderRoom.setPaymentStatus(PaymentStatus.DEPOSITED);
+        notificationService.createNotification("Đặt cọc thành công đơn hàng "+String.format("DH%3d",orderId));
         orderRoomRepository.save(orderRoom);
     }
 
+    @Transactional
     @Override
     public void payOrderRoom(Long orderId) {
         OrderRoom orderRoom = orderRoomRepository.findById(orderId)
                 .orElseThrow(()->new BusinessException(ErrorCode.ORDER_NOT_EXIST));
         orderRoom.setPaymentStatus(PaymentStatus.PAID);
+        notificationService.createNotification("Thanh toán thành công đơn hàng "+String.format("DH%3d",orderId));
         orderRoomRepository.save(orderRoom);
     }
 
+    @Transactional
     @Override
     public void cancelOrderRoom(Long orderId) {
         OrderRoom orderRoom = orderRoomRepository.findById(orderId)
                 .orElseThrow(()->new BusinessException(ErrorCode.ORDER_NOT_EXIST));
         orderRoom.setPaymentStatus(PaymentStatus.CANCELLED);
+        notificationService.createNotification("Hủy thành công đơn hàng "+String.format("DH%3d",orderId));
         orderRoomRepository.save(orderRoom);
     }
 

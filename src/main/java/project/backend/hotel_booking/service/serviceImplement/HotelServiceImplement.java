@@ -17,6 +17,7 @@ import project.backend.hotel_booking.repository.HotelsRepository;
 import project.backend.hotel_booking.repository.OrderRoomRepository;
 import project.backend.hotel_booking.repository.PartnerInfoRepository;
 import project.backend.hotel_booking.service.HotelService;
+import project.backend.hotel_booking.service.NotificationService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +75,7 @@ public class HotelServiceImplement implements HotelService {
             hotel.setPhoneNumber(updateHotelDTO.getPhoneNumber());
         if(updateHotelDTO.getAddress()!=null)
             hotel.setAddress(updateHotelDTO.getAddress());
+        notificationService.createNotification("Cập nhật thành công khách sạn "+String.format("KS%02d",hotelId));
         hotelsRepository.save(hotel);
     }
 
@@ -96,6 +98,7 @@ public class HotelServiceImplement implements HotelService {
                 .hotelEnum(HotelEnum.PENDING)
                 .build();
         hotelsRepository.save(hotel);
+        notificationService.createNotification("Cập nhật thành công khách sạn "+String.format("KS%02d",hotel.getId()));
         return convertToHotelInfoVO(hotel);
     }
 

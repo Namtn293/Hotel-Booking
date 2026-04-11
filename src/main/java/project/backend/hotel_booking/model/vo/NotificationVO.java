@@ -5,16 +5,13 @@ import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
 
-import java.time.LocalDate;
+import java.time.LocalDateTime;
 
 @Data
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RatingVO {
-    private String avatar;
-    private String userName;
-    private Long rating;
-    private String reason;
-    private String createdDate;
+public class NotificationVO {
+    private String content;
+    private LocalDateTime createdDate;
 }

@@ -7,9 +7,12 @@ import project.backend.hotel_booking.model.dto.HotelRegisterDTO;
 import project.backend.hotel_booking.model.dto.UpdateHotelDTO;
 import project.backend.hotel_booking.model.vo.HotelInfoAVO;
 import project.backend.hotel_booking.model.vo.HotelInfoVO;
+import project.backend.hotel_booking.model.vo.HotelStatisticVO;
 import project.backend.hotel_booking.service.HotelService;
 
 import java.util.List;
+
+import static project.backend.hotel_booking.core.util.ResponseUtil.ok;
 
 @RestController
 @RequestMapping("api/hotel")
@@ -22,7 +25,7 @@ public class HotelController {
 
     @PostMapping("/register/{partnerId}")
     SuccessResponse<HotelInfoVO> registerHotel(@RequestBody HotelRegisterDTO hotelRegisterDTO){
-           return ResponseUtil.ok(
+           return ok(
                    "register hotel success",
                    hotelService.registerHotel(hotelRegisterDTO)
            );
@@ -30,7 +33,7 @@ public class HotelController {
 
     @GetMapping("/admin")
     SuccessResponse<List<HotelInfoAVO>> getAllHotels(){
-            return ResponseUtil.ok(
+            return ok(
                     "get all hotels success",
                     hotelService.getAllHotels()
             );
@@ -38,7 +41,7 @@ public class HotelController {
 
     @GetMapping("/partner")
     SuccessResponse<List<HotelInfoVO>> getAllMyHotels(){
-        return ResponseUtil.ok(
+        return ok(
                 "get all hotels success",
                 hotelService.getAllMyHotels()
         );
@@ -47,8 +50,19 @@ public class HotelController {
     @PutMapping("/partner/update/{hotelId}")
     SuccessResponse<String> updateHotelInfo(@PathVariable Long hotelId, @RequestBody UpdateHotelDTO updateHotelDTO){
         hotelService.updateHotelInfo(hotelId,updateHotelDTO);
-        return ResponseUtil.ok(
+        return ok(
                 "update hotel info success"
         );
+    }
+
+
+    @GetMapping("/get-top5-hotel-pending")
+    SuccessResponse<List<HotelStatisticVO>> getTop5HotelPending(){
+        return ok("Get success",hotelService.getTop5GHotelStatistic());
+    }
+
+    @GetMapping("/hotel-pending-total")
+    public SuccessResponse<Long> hotelPendingTotal(){
+        return ResponseUtil.ok("Get success",hotelService.getNewHotelPending());
     }
 }

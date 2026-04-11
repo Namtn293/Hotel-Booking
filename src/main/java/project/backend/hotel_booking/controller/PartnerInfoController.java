@@ -42,4 +42,5 @@ public class PartnerInfoController {
         return ResponseUtil.ok("Reject success");
     }
 
+
 }

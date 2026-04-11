@@ -13,12 +13,14 @@ import project.backend.hotel_booking.model.dto.HotelRegisterDTO;
 import project.backend.hotel_booking.model.dto.UpdateHotelDTO;
 import project.backend.hotel_booking.model.vo.HotelInfoAVO;
 import project.backend.hotel_booking.model.vo.HotelInfoVO;
+import project.backend.hotel_booking.model.vo.HotelStatisticVO;
 import project.backend.hotel_booking.repository.HotelsRepository;
 import project.backend.hotel_booking.repository.OrderRoomRepository;
 import project.backend.hotel_booking.repository.PartnerInfoRepository;
 import project.backend.hotel_booking.service.HotelService;
 import project.backend.hotel_booking.service.NotificationService;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -27,10 +29,12 @@ public class HotelServiceImplement implements HotelService {
     private final HotelsRepository hotelsRepository;
     private final PartnerInfoRepository partnerInfoRepository;
     private final UserRepository userRepository;
-    public HotelServiceImplement(HotelsRepository hotelsRepository, PartnerInfoRepository partnerInfoRepository, UserRepository userRepository) {
+    private final NotificationService notificationService;
+    public HotelServiceImplement(NotificationService notificationService,HotelsRepository hotelsRepository, PartnerInfoRepository partnerInfoRepository, UserRepository userRepository) {
         this.hotelsRepository = hotelsRepository;
         this.partnerInfoRepository = partnerInfoRepository;
         this.userRepository = userRepository;
+        this.notificationService = notificationService;
     }
 
     @Override
@@ -125,5 +129,23 @@ public class HotelServiceImplement implements HotelService {
         hotelInfoAVO.setStatus(hotel.getHotelEnum());
 
         return hotelInfoAVO;
+    }
+
+    @Override
+    public List<HotelStatisticVO> getTop5GHotelStatistic() {
+        List<Hotel> list=hotelsRepository.getTop5Hotel();
+        List<HotelStatisticVO> hotelStatisticVOS=new ArrayList<>();
+        list.forEach(c->{
+            hotelStatisticVOS.add(HotelStatisticVO.builder()
+                            .createdDate(c.getCreatedDate())
+                            .hotelName(c.getHotelName())
+                    .build());
+        });
+        return hotelStatisticVOS;
+    }
+
+    @Override
+    public Long getNewHotelPending() {
+        return hotelsRepository.getNewHotelPending(LocalDate.now());
     }
 }

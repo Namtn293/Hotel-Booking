@@ -1,6 +1,7 @@
 package project.backend.hotel_booking.service.serviceImplement;
 
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 import project.backend.hotel_booking.core.auth.entity.User;
 import project.backend.hotel_booking.core.auth.repository.UserRepository;
 import project.backend.hotel_booking.core.configuration.ThreadContext;
@@ -9,6 +10,7 @@ import project.backend.hotel_booking.entity.Rating;
 import project.backend.hotel_booking.entity.UserInfo;
 import project.backend.hotel_booking.enumration.ErrorCode;
 import project.backend.hotel_booking.model.dto.RatingDTO;
+import project.backend.hotel_booking.model.dto.RatingGetDTO;
 import project.backend.hotel_booking.model.vo.RatingVO;
 import project.backend.hotel_booking.repository.HotelsRepository;
 import project.backend.hotel_booking.repository.RatingRepository;
@@ -34,6 +36,8 @@ public class RatingServiceImplement implements RatingService {
         this.hotelsRepository = hotelsRepository;
     }
 
+
+    @Transactional
     @Override
     public void createRating(RatingDTO ratingDTO) {
         User user= userRepository.findByUserName(ThreadContext.getUserDetail().getUsername()).orElseThrow(()->new BusinessException(ErrorCode.USER_NOT_ALREADY_EXIST));
@@ -45,6 +49,7 @@ public class RatingServiceImplement implements RatingService {
                 .userId(user.getId())
                 .reason(ratingDTO.getReason())
                 .rating(ratingDTO.getRating())
+                .roomId(ratingDTO.getRoomId())
                 .build();
 
         notificationService.createNotification("Bạn đã đánh giá khách sạn "+hotelsRepository.getHotelNameById(ratingDTO.getHotelId()));
@@ -52,8 +57,8 @@ public class RatingServiceImplement implements RatingService {
     }
 
     @Override
-    public List<RatingVO> getHotelRating(Long hotelId) {
-        List<Rating> list=ratingRepository.getRatingByHotelId(hotelId);
+    public List<RatingVO> getHotelRating(RatingGetDTO ratingGetDTO) {
+        List<Rating> list=ratingRepository.getRatingByHotelIdAndRoomId(ratingGetDTO.getHotelId(), ratingGetDTO.getRoomId());
         List<RatingVO> voList=new ArrayList<>();
         list.forEach(c->{
             UserInfo userInfo=userInfoRepository.getUserInfoByUserId(c.getUserId()).orElseThrow(()-> new BusinessException(ErrorCode.USER_NOT_ALREADY_EXIST));

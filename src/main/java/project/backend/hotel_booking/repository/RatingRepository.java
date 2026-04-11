@@ -11,5 +11,5 @@ public interface RatingRepository extends JpaRepository<Rating,Long> {
 
     boolean existsByUserIdAndHotelId(Long userId,Long hotelId);
 
-    List<Rating> getRatingByHotelId(Long hotelId);
+    List<Rating> getRatingByHotelIdAndRoomId(Long hotelId,Long roomId);
 }

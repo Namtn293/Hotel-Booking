@@ -12,7 +12,7 @@ import project.backend.hotel_booking.service.NotificationService;
 import java.util.List;
 
 @RestController
-@RequestMapping(name = "/api/notification")
+@RequestMapping(value = "/api/notification")
 public class NotificationController {
     private final NotificationService notificationService;
 

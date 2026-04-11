@@ -16,5 +16,5 @@ public class RatingVO {
     private String userName;
     private Long rating;
     private String reason;
-    private LocalDate createdDate;
+    private String createdDate;
 }

@@ -13,6 +13,5 @@ import java.time.LocalDateTime;
 @NoArgsConstructor
 public class NotificationVO {
     private String content;
-    private Long userId;
     private LocalDateTime createdDate;
 }

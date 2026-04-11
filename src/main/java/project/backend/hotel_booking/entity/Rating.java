@@ -9,6 +9,7 @@ import lombok.NoArgsConstructor;
 import project.backend.hotel_booking.core.util.EntityBase;
 
 import java.time.LocalDate;
+import java.time.format.DateTimeFormatter;
 
 @Entity
 @Builder
@@ -18,12 +19,14 @@ import java.time.LocalDate;
 public class Rating extends EntityBase {
     private Long rating;
     private String reason;
-    private LocalDate createdDate;
+    private String createdDate;
     private Long hotelId;
+    private Long roomId;
     private Long userId;
 
     @PrePersist
     public void prePersist(){
-        this.createdDate=LocalDate.now();
+        DateTimeFormatter formatter=DateTimeFormatter.ofPattern("dd-MM-yyyy");
+        this.createdDate=LocalDate.now().format(formatter);
     }
 }

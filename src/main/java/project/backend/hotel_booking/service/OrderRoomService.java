@@ -12,7 +12,7 @@ public interface OrderRoomService {
     void depositOrderRoom(Long orderId);
     void payOrderRoom(Long orderId);
     void cancelOrderRoom(Long orderId);
-    List<OrderRoom> getOrderByHotelId(Long hotelId);
+    List<OrderRoom> getOrderByPartner();
     List<OrderRoom> getOrderByUserName();
 
     OrderRoomUserVO convertToOrderRoomUserVO(OrderRoom orderRoom);

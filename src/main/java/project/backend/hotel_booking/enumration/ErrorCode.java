@@ -6,6 +6,9 @@ import lombok.Getter;
 public enum ErrorCode {
     NULL_FIELD("400","Fill all necessary field"),
     ROOM_NOT_EXIST("404","Room not exist"),
+    IMAGE_NOT_EXIST("404","Image not exist"),
+    FAIL_UPLOAD_IMAGE("404","Can't upload image"),
+    FAIL_DELETE_IMAGE("404","Can't delete image"),
     HOTEL_NOT_EXIST("404","Hotel not exist"),
     ORDER_NOT_EXIST("404","ORDER not exist"),
     USER_ALREADY_EXIST("409","User already exist"),

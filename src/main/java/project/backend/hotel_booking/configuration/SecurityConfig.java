@@ -34,11 +34,10 @@ public class SecurityConfig {
                 .csrf(AbstractHttpConfigurer::disable)
                 .authorizeHttpRequests(auth -> auth
                                 .requestMatchers("/api/auth/**").permitAll()
-                                .requestMatchers("/api/user-info/**").hasRole("STUDENT")
+                                .requestMatchers("/api/user-info/**").hasAnyRole("ADMIN","PARTNER")
                                 .anyRequest()
-                                .authenticated()
+                                .authenticated())
 //                        .anyRequest().permitAll()
-                )
                 .authenticationProvider(authenticationProvider)
                 .addFilterBefore(authenticationFilter, UsernamePasswordAuthenticationFilter.class);
         return http.build();

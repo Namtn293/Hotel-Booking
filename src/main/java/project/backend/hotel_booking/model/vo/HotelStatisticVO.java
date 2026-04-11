@@ -11,11 +11,7 @@ import java.time.LocalDate;
 @Builder
 @AllArgsConstructor
 @NoArgsConstructor
-public class RatingVO {
-    private String avatar;
-    private String userName;
-    private Long rating;
-    private String reason;
-    private String createdDate;
-    private String url;
+public class HotelStatisticVO {
+    private String hotelName;
+    private LocalDate createdDate;
 }

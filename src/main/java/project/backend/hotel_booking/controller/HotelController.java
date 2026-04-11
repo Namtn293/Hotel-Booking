@@ -12,10 +12,13 @@ import project.backend.hotel_booking.model.dto.UpdateHotelDTO;
 import project.backend.hotel_booking.model.vo.HotelInfoAVO;
 import project.backend.hotel_booking.model.vo.HotelInfoPVO;
 import project.backend.hotel_booking.model.vo.HotelInfoVO;
+import project.backend.hotel_booking.model.vo.HotelStatisticVO;
 import project.backend.hotel_booking.service.HotelService;
 
 import java.io.IOException;
 import java.util.List;
+
+import static project.backend.hotel_booking.core.util.ResponseUtil.ok;
 
 @RestController
 @RequestMapping("api/hotel")
@@ -36,7 +39,7 @@ public class HotelController {
 
     @GetMapping("/admin")
     SuccessResponse<List<HotelInfoAVO>> getAllHotels(){
-            return ResponseUtil.ok(
+            return ok(
                     "get all hotels success",
                     hotelService.getAllHotels()
             );
@@ -80,5 +83,14 @@ public class HotelController {
         return ResponseUtil.ok(
                 "delete hotel info success"
         );
+
+    @GetMapping("/get-top5-hotel-pending")
+    SuccessResponse<List<HotelStatisticVO>> getTop5HotelPending(){
+        return ok("Get success",hotelService.getTop5GHotelStatistic());
+    }
+
+    @GetMapping("/hotel-pending-total")
+    public SuccessResponse<Long> hotelPendingTotal(){
+        return ResponseUtil.ok("Get success",hotelService.getNewHotelPending());
     }
 }

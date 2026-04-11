@@ -20,11 +20,16 @@ import project.backend.hotel_booking.model.vo.HotelInfoAVO;
 import project.backend.hotel_booking.model.vo.HotelInfoPVO;
 import project.backend.hotel_booking.model.vo.HotelInfoVO;
 import project.backend.hotel_booking.repository.*;
+import project.backend.hotel_booking.model.vo.HotelStatisticVO;
+import project.backend.hotel_booking.repository.HotelsRepository;
+import project.backend.hotel_booking.repository.OrderRoomRepository;
+import project.backend.hotel_booking.repository.PartnerInfoRepository;
 import project.backend.hotel_booking.service.HotelService;
 import project.backend.hotel_booking.service.ImageService;
 import project.backend.hotel_booking.service.NotificationService;
 
 import java.io.IOException;
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -197,5 +202,20 @@ public class HotelServiceImplement implements HotelService {
         hotelInfoPVO.setUrl(imageRepositoty.findById(hotel.getId())
                 .orElseThrow(()->new BusinessException(ErrorCode.IMAGE_NOT_EXIST)).getUrl());
         return hotelInfoPVO;
+    public List<HotelStatisticVO> getTop5GHotelStatistic() {
+        List<Hotel> list=hotelsRepository.getTop5Hotel();
+        List<HotelStatisticVO> hotelStatisticVOS=new ArrayList<>();
+        list.forEach(c->{
+            hotelStatisticVOS.add(HotelStatisticVO.builder()
+                            .createdDate(c.getCreatedDate())
+                            .hotelName(c.getHotelName())
+                    .build());
+        });
+        return hotelStatisticVOS;
+    }
+
+    @Override
+    public Long getNewHotelPending() {
+        return hotelsRepository.getNewHotelPending(LocalDate.now());
     }
 }

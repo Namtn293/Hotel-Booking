@@ -9,6 +9,7 @@ import project.backend.hotel_booking.model.dto.UpdateHotelDTO;
 import project.backend.hotel_booking.model.vo.HotelInfoAVO;
 import project.backend.hotel_booking.model.vo.HotelInfoPVO;
 import project.backend.hotel_booking.model.vo.HotelInfoVO;
+import project.backend.hotel_booking.model.vo.HotelStatisticVO;
 
 import java.io.IOException;
 import java.util.List;
@@ -24,4 +25,8 @@ public interface HotelService {
     HotelInfoVO convertToHotelInfoVO(Hotel hotel);
     HotelInfoAVO convertToHotelInfoAVO(Hotel hotel);
     HotelInfoPVO convertToHotelInfoPVO(Hotel hotel);
+
+    List<HotelStatisticVO> getTop5GHotelStatistic();
+
+    Long getNewHotelPending();
 }

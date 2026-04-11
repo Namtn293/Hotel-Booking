@@ -23,6 +23,7 @@ public class Rating extends EntityBase {
     private Long hotelId;
     private Long roomId;
     private Long userId;
+    private Long imagineId;
 
     @PrePersist
     public void prePersist(){

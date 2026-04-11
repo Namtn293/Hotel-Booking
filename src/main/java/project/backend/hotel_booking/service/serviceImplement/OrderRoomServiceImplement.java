@@ -20,6 +20,7 @@ import project.backend.hotel_booking.repository.RoomRepository;
 import project.backend.hotel_booking.service.NotificationService;
 import project.backend.hotel_booking.service.OrderRoomService;
 
+import java.time.LocalDate;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -129,5 +130,15 @@ public class OrderRoomServiceImplement implements OrderRoomService {
     @Override
     public OrderRoomPartnerVO convertToOrderRoomPartnerVO(OrderRoom orderRoom) {
         return null;
+    }
+
+    @Override
+    public Double getTodayRevenue() {
+        return orderRoomRepository.getTodayRevenue(LocalDate.now());
+    }
+
+    @Override
+    public Long getTodayReservedOrder() {
+        return orderRoomRepository.getTodayReversedOrder(LocalDate.now());
     }
 }

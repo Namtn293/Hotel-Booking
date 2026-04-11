@@ -5,6 +5,7 @@ import project.backend.hotel_booking.model.dto.OrderRoomDTO;
 import project.backend.hotel_booking.model.vo.OrderRoomPartnerVO;
 import project.backend.hotel_booking.model.vo.OrderRoomUserVO;
 
+import java.time.LocalDate;
 import java.util.List;
 
 public interface OrderRoomService {
@@ -17,4 +18,8 @@ public interface OrderRoomService {
 
     OrderRoomUserVO convertToOrderRoomUserVO(OrderRoom orderRoom);
     OrderRoomPartnerVO convertToOrderRoomPartnerVO(OrderRoom orderRoom);
+
+    Double getTodayRevenue();
+
+    Long getTodayReservedOrder();
 }

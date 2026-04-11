@@ -28,9 +28,8 @@ public class UserInfoController {
         return ResponseUtil.ok("Lock/Unlock success");
     }
 
-    @GetMapping("new-account-total")
+    @GetMapping("/new-account-total")
     public SuccessResponse<Long> newAccountTotal(){
         return ResponseUtil.ok("Get success", userInfoService.accountCount());
     }
-
 }

@@ -65,4 +65,14 @@ public class OrderRoomController {
                 orderRoomService.getOrderByUserName()
         );
     }
+
+    @GetMapping("/get-today-revenue")
+    public SuccessResponse<Double> getTodayRevenue(){
+        return ResponseUtil.ok("Get today revenue success",orderRoomService.getTodayRevenue());
+    }
+
+    @GetMapping("/get-today-reserved-order")
+    public SuccessResponse<Long> getTodayReservedOrder(){
+        return ResponseUtil.ok("Get today reserve order success",orderRoomService.getTodayReservedOrder());
+    }
 }

@@ -31,13 +31,15 @@ public class OrderRoomServiceImplement implements OrderRoomService {
     private final UserInfoRepository userInfoRepository;
     private final UserRepository userRepository;
     private final PartnerInfoRepository partnerInfoRepository;
-    public OrderRoomServiceImplement(OrderRoomRepository orderRoomRepository, RoomRepository roomRepository, HotelsRepository hotelsRepository, UserInfoRepository userInfoRepository, UserRepository userRepository, PartnerInfoRepository partnerInfoRepository) {
+    private final NotificationService notificationService;
+    public OrderRoomServiceImplement(OrderRoomRepository orderRoomRepository, RoomRepository roomRepository, HotelsRepository hotelsRepository, UserInfoRepository userInfoRepository, UserRepository userRepository, PartnerInfoRepository partnerInfoRepository, NotificationService notificationService) {
         this.orderRoomRepository = orderRoomRepository;
         this.roomRepository = roomRepository;
         this.hotelsRepository = hotelsRepository;
         this.userInfoRepository = userInfoRepository;
         this.userRepository = userRepository;
         this.partnerInfoRepository = partnerInfoRepository;
+        this.notificationService = notificationService;
     }
 
     @Override

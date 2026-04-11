@@ -50,18 +50,18 @@ public class OrderRoomController {
         );
     }
 
-    @GetMapping("partner/{hotelId}")
-    SuccessResponse<List<OrderRoom>> getOrderByHotelId(@PathVariable Long hotelId){
+    @GetMapping("/partner")
+    SuccessResponse<List<OrderRoom>> getOrderByPartner(){
         return ResponseUtil.ok(
-                "create order success",
-                orderRoomService.getOrderByHotelId(hotelId)
+                "get order success",
+                orderRoomService.getOrderByPartner()
         );
     }
 
     @GetMapping("/user")
     SuccessResponse<List<OrderRoom>> getOrderByUserName(){
         return ResponseUtil.ok(
-                "create order success",
+                "get order success",
                 orderRoomService.getOrderByUserName()
         );
     }

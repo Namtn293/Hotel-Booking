@@ -27,10 +27,12 @@ public class HotelServiceImplement implements HotelService {
     private final HotelsRepository hotelsRepository;
     private final PartnerInfoRepository partnerInfoRepository;
     private final UserRepository userRepository;
-    public HotelServiceImplement(HotelsRepository hotelsRepository, PartnerInfoRepository partnerInfoRepository, UserRepository userRepository) {
+    private final NotificationService notificationService;
+    public HotelServiceImplement(NotificationService notificationService,HotelsRepository hotelsRepository, PartnerInfoRepository partnerInfoRepository, UserRepository userRepository) {
         this.hotelsRepository = hotelsRepository;
         this.partnerInfoRepository = partnerInfoRepository;
         this.userRepository = userRepository;
+        this.notificationService = notificationService;
     }
 
     @Override

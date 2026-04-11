@@ -17,4 +17,5 @@ public class RatingVO {
     private Long rating;
     private String reason;
     private String createdDate;
+    private String url;
 }

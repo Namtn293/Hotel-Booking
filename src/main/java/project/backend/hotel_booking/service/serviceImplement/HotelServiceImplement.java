@@ -42,8 +42,8 @@ public class HotelServiceImplement implements HotelService {
     private final OrderRoomRepository orderRoomRepository;
     private final RoomRepository roomRepository;
     private final ImageService imageService;
-    private final ImageRepositoty imageRepositoty;
-    public HotelServiceImplement(HotelsRepository hotelsRepository, PartnerInfoRepository partnerInfoRepository, UserRepository userRepository, NotificationService notificationService, OrderRoomRepository orderRoomRepository, RoomRepository roomRepository, ImageService imageService, ImageRepositoty imageRepositoty) {
+    private final ImageRepository imageRepositoty;
+    public HotelServiceImplement(HotelsRepository hotelsRepository, PartnerInfoRepository partnerInfoRepository, UserRepository userRepository, NotificationService notificationService, OrderRoomRepository orderRoomRepository, RoomRepository roomRepository, ImageService imageService, ImageRepository imageRepositoty) {
         this.hotelsRepository = hotelsRepository;
         this.partnerInfoRepository = partnerInfoRepository;
         this.userRepository = userRepository;
@@ -132,7 +132,7 @@ public class HotelServiceImplement implements HotelService {
                 .orElseThrow(()->new BusinessException(ErrorCode.HOTEL_NOT_EXIST));
         orderRoomRepository.deleteAllByHotelId(hotelId);
         roomRepository.deleteAllByHotelId(hotelId);
-        imageService.deleteImage(hotel.getImageId());
+        if(hotel.getImageId()!=null) imageService.deleteImage(hotel.getImageId());
         hotelsRepository.deleteById(hotelId);
     }
 
@@ -144,9 +144,7 @@ public class HotelServiceImplement implements HotelService {
         System.out.println(userId);
         PartnerInfo partnerInfo = partnerInfoRepository.findByUserId(userId)
                 .orElseThrow(()->new BusinessException(ErrorCode.PARTNER_NOT_ALREADY_EXIST));
-        System.out.println(partnerInfo.getId());
-        System.out.println(hotelRegisterDTO.getHotelName());
-        System.out.println(hotelRegisterDTO.getAddress());
+
         if (!StringUtils.hasText(hotelRegisterDTO.getHotelName()) ||
                 !StringUtils.hasText(hotelRegisterDTO.getAddress())) {
             throw new BusinessException(ErrorCode.NULL_FIELD);
@@ -200,8 +198,10 @@ public class HotelServiceImplement implements HotelService {
         hotelInfoPVO.setDescription(hotel.getDescription());
         hotelInfoPVO.setAddress(hotel.getAddress());
         hotelInfoPVO.setUrl(imageRepositoty.findById(hotel.getId())
-                .orElseThrow(()->new BusinessException(ErrorCode.IMAGE_NOT_EXIST)).getUrl());
+                .orElseThrow(() -> new BusinessException(ErrorCode.IMAGE_NOT_EXIST)).getUrl());
         return hotelInfoPVO;
+    }
+
     public List<HotelStatisticVO> getTop5GHotelStatistic() {
         List<Hotel> list=hotelsRepository.getTop5Hotel();
         List<HotelStatisticVO> hotelStatisticVOS=new ArrayList<>();

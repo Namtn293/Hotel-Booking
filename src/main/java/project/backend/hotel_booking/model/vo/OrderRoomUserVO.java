@@ -4,6 +4,7 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import project.backend.hotel_booking.enumration.PaymentStatus;
 import project.backend.hotel_booking.enumration.QualityEnum;
 
 import java.time.LocalDate;
@@ -13,17 +14,21 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderRoomUserVO {
+    private String RoomName;
+
     private String hotelName;
 
-    private int capacity;
+    private String address;
 
     private QualityEnum qualityEnum;
 
     private double price;
 
-    private LocalDate orderDate;
-
     private LocalDate startDate;
 
     private LocalDate endDate;
+
+    private PaymentStatus paymentStatus;
+
+    private Long RoomId;
 }

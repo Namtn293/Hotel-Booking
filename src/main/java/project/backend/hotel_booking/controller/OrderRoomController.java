@@ -5,6 +5,8 @@ import project.backend.hotel_booking.core.util.ResponseUtil;
 import project.backend.hotel_booking.core.util.SuccessResponse;
 import project.backend.hotel_booking.entity.OrderRoom;
 import project.backend.hotel_booking.model.dto.OrderRoomDTO;
+import project.backend.hotel_booking.model.vo.OrderRoomPartnerVO;
+import project.backend.hotel_booking.model.vo.OrderRoomUserVO;
 import project.backend.hotel_booking.service.OrderRoomService;
 
 import java.util.List;
@@ -51,7 +53,7 @@ public class OrderRoomController {
     }
 
     @GetMapping("/partner")
-    SuccessResponse<List<OrderRoom>> getOrderByPartner(){
+    SuccessResponse<List<OrderRoomPartnerVO>> getOrderByPartner(){
         return ResponseUtil.ok(
                 "get order success",
                 orderRoomService.getOrderByPartner()
@@ -59,7 +61,7 @@ public class OrderRoomController {
     }
 
     @GetMapping("/user")
-    SuccessResponse<List<OrderRoom>> getOrderByUserName(){
+    SuccessResponse<List<OrderRoomUserVO>> getOrderByUserName(){
         return ResponseUtil.ok(
                 "get order success",
                 orderRoomService.getOrderByUserName()

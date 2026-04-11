@@ -18,4 +18,8 @@ public class RoomVO {
     private double price;
     private QualityEnum qualityEnum;
     private String hotelName;
+    private String address;
+    private Long count;
+    private Double point;
+    private String url;
 }

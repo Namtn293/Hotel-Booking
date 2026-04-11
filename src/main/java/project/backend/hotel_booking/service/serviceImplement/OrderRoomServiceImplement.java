@@ -90,7 +90,7 @@ public class OrderRoomServiceImplement implements OrderRoomService {
     }
 
     @Override
-    public List<OrderRoom> getOrderByPartner() {
+    public List<OrderRoomPartnerVO> getOrderByPartner() {
         System.out.println(ThreadContext.getUserDetail().getUsername());
         User user = userRepository.findByUserName(ThreadContext.getUserDetail().getUsername())
                 .orElseThrow(()->new BusinessException(ErrorCode.USER_NOT_FOUND));
@@ -101,6 +101,7 @@ public class OrderRoomServiceImplement implements OrderRoomService {
         PartnerInfo partner = partnerInfoRepository.findByUserId(user.getId())
                 .orElseThrow(()->new BusinessException(ErrorCode.USER_NOT_FOUND));
         List<OrderRoom> orderRooms = new ArrayList<>();
+        List<OrderRoomPartnerVO> orderRoomPartnerVOS = new ArrayList<>();
         List<Hotel> hotels = hotelsRepository.findAllByPartnerId(partner.getId());
         for(var hotel: hotels){
             System.out.println(hotel.getId());
@@ -108,28 +109,63 @@ public class OrderRoomServiceImplement implements OrderRoomService {
             orderRooms.addAll(orderRoomsInHotel);
         }
 
-        return orderRooms;
+        orderRooms.forEach((or)->{
+            orderRoomPartnerVOS.add(convertToOrderRoomPartnerVO(or));
+        });
+
+        return orderRoomPartnerVOS;
     }
 
     @Override
-    public List<OrderRoom> getOrderByUserName() {
+    public List<OrderRoomUserVO> getOrderByUserName() {
         User user = userRepository.findByUserName(ThreadContext.getUserDetail().getUsername())
                 .orElseThrow(()->new BusinessException(ErrorCode.USER_NOT_FOUND));
         if(!user.getRole().equals(RoleEnum.CUSTOMER)){
             throw new BusinessException(ErrorCode.FORBIDDEN);
         }
         List<OrderRoom> orderRooms = orderRoomRepository.findAllByUserName(ThreadContext.getUserDetail().getUsername());
-        return orderRooms;
+        List<OrderRoomUserVO> orderRoomUserVOS = new ArrayList<>();
+        orderRooms.forEach((or)->{
+            orderRoomUserVOS.add(convertToOrderRoomUserVO(or));
+        });
+        return orderRoomUserVOS;
     }
 
     @Override
     public OrderRoomUserVO convertToOrderRoomUserVO(OrderRoom orderRoom) {
-        return null;
+        OrderRoomUserVO orderRoomUserVO = new OrderRoomUserVO();
+        orderRoomUserVO.setRoomId(orderRoom.getRoomId());
+        orderRoomUserVO.setPrice(orderRoom.getPrice());
+        orderRoomUserVO.setStartDate(orderRoom.getStartDate());
+        orderRoomUserVO.setEndDate(orderRoom.getEndDate());
+        orderRoomUserVO.setPaymentStatus(orderRoom.getPaymentStatus());
+        orderRoomUserVO.setQualityEnum(orderRoom.getQualityEnum());
+
+        Room room = roomRepository.findById(orderRoom.getRoomId())
+                .orElseThrow(()->new BusinessException(ErrorCode.ROOM_NOT_EXIST));
+        orderRoomUserVO.setRoomName(room.getRoomName());
+
+        Hotel hotel = hotelsRepository.findById(room.getHotelId())
+                .orElseThrow(()->new BusinessException(ErrorCode.HOTEL_NOT_EXIST));
+        orderRoomUserVO.setHotelName(hotel.getHotelName());
+        orderRoomUserVO.setAddress(hotel.getAddress());
+
+
+        return orderRoomUserVO;
     }
 
     @Override
     public OrderRoomPartnerVO convertToOrderRoomPartnerVO(OrderRoom orderRoom) {
-        return null;
+        OrderRoomPartnerVO orderRoomPartnerVO = new OrderRoomPartnerVO();
+        orderRoomPartnerVO.setUserName(orderRoom.getUserName());
+        orderRoomPartnerVO.setCapacity(orderRoom.getCapacity());
+        orderRoomPartnerVO.setQualityEnum(orderRoom.getQualityEnum());
+        orderRoomPartnerVO.setPrice(orderRoom.getPrice());
+        orderRoomPartnerVO.setOrderDate(orderRoom.getOrderDate());
+        Room room = roomRepository.findById(orderRoom.getRoomId())
+                .orElseThrow(()->new BusinessException(ErrorCode.ROOM_NOT_EXIST));
+        orderRoomPartnerVO.setRoomName(room.getRoomName());
+        return orderRoomPartnerVO;
     }
 
     @Override

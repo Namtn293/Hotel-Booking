@@ -33,10 +33,13 @@ public class Hotel extends EntityBase {
 
     private HotelEnum hotelEnum;
 
+    private ActiveStatus activeStatus;
+
     private String address;
 
     private Double star;
 
+    private Long imageId;
     @PrePersist
     public void prePersist(){
         this.createdDate=LocalDate.now();

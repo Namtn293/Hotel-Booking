@@ -2,8 +2,10 @@ package project.backend.hotel_booking.repository;
 
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
+import org.springframework.data.repository.query.Param;
 import org.springframework.stereotype.Repository;
 import project.backend.hotel_booking.entity.PartnerInfo;
+import project.backend.hotel_booking.model.vo.PartnerInfoManageVO;
 
 import java.util.List;
 import java.util.Optional;
@@ -19,4 +21,12 @@ public interface PartnerInfoRepository extends JpaRepository<PartnerInfo,Long> {
 
     @Query(value = "Select a.partnerName from PartnerInfo a where a.id=:id")
     Optional<String> findPartnerNameById(Long id);
+
+    @Query(value = "select new project.backend.hotel_booking.model.vo.PartnerInfoManageVO(a.id,a.partnerName,a.email,a.phonNumber,a.partnerStatus,cast(coalesce(sum(c.price),0.0d)as double )) " +
+            "from PartnerInfo a " +
+            "left join Hotel b on a.id=b.partnerId " +
+            "left join MAIN_ROOM_ORDER c on c.hotelId=b.id " +
+            "and month(c.orderDate) = :month " +
+            "group by a.id,a.partnerName,a.email,a.phonNumber,a.partnerStatus")
+    List<PartnerInfoManageVO> getPartnerInfoAdmin(@Param("month") Long month);
 }

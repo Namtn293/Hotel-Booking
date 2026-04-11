@@ -4,17 +4,17 @@ import lombok.AllArgsConstructor;
 import lombok.Builder;
 import lombok.Data;
 import lombok.NoArgsConstructor;
+import project.backend.hotel_booking.enumration.PartnerStatus;
 
-import java.time.LocalDate;
-@Builder
-@NoArgsConstructor
-@AllArgsConstructor
 @Data
-public class PartnerInfoVO {
+@Builder
+@AllArgsConstructor
+@NoArgsConstructor
+public class PartnerInfoManageVO {
+    private Long partnerId;
     private String partnerName;
-    private LocalDate sendDate;
-    private String partnerId;
     private String email;
     private String phoneNumber;
-
+    private PartnerStatus partnerStatus;
+    private Double revenueTotal;
 }

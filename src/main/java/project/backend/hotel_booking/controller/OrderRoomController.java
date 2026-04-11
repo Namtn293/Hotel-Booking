@@ -5,6 +5,7 @@ import project.backend.hotel_booking.core.util.ResponseUtil;
 import project.backend.hotel_booking.core.util.SuccessResponse;
 import project.backend.hotel_booking.entity.OrderRoom;
 import project.backend.hotel_booking.model.dto.OrderRoomDTO;
+import project.backend.hotel_booking.model.vo.OrderRoomDataVO;
 import project.backend.hotel_booking.service.OrderRoomService;
 
 import java.util.List;
@@ -74,5 +75,10 @@ public class OrderRoomController {
     @GetMapping("/get-today-reserved-order")
     public SuccessResponse<Long> getTodayReservedOrder(){
         return ResponseUtil.ok("Get today reserve order success",orderRoomService.getTodayReservedOrder());
+    }
+
+    @GetMapping("/get-revenue-total-each-day")
+    public SuccessResponse<List<OrderRoomDataVO>> getRevenueTotalEachDay(){
+        return ResponseUtil.ok("Get today reserve order success",orderRoomService.getRevenueTotal());
     }
 }

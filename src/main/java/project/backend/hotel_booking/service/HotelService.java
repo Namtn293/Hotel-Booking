@@ -5,6 +5,7 @@ import project.backend.hotel_booking.model.dto.HotelRegisterDTO;
 import project.backend.hotel_booking.model.dto.UpdateHotelDTO;
 import project.backend.hotel_booking.model.vo.HotelInfoAVO;
 import project.backend.hotel_booking.model.vo.HotelInfoVO;
+import project.backend.hotel_booking.model.vo.HotelStatisticVO;
 
 import java.util.List;
 
@@ -15,4 +16,8 @@ public interface HotelService {
     HotelInfoVO registerHotel(HotelRegisterDTO hotelRegisterDTO);
     HotelInfoVO convertToHotelInfoVO(Hotel hotel);
     HotelInfoAVO convertToHotelInfoAVO(Hotel hotel);
+
+    List<HotelStatisticVO> getTop5GHotelStatistic();
+
+    Long getNewHotelPending();
 }

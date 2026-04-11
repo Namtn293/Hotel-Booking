@@ -16,6 +16,7 @@ public interface OrderRoomRepository extends JpaRepository<OrderRoom,Long> {
     List<OrderRoom> findAllByHotelId(Long hotelId);
 
     List<OrderRoom> findAllByUserName(String userName);
+    void deleteAllByHotelId(Long hotelId);
 
     @Query(value = "select sum(a.price)" +
             "from MAIN_ROOM_ORDER a " +

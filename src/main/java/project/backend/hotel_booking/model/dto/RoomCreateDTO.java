@@ -13,5 +13,4 @@ public class RoomCreateDTO {
     private Long capacity;
     private double price;
     private QualityEnum qualityEnum;
-    private MultipartFile image;
 }

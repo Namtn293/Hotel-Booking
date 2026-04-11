@@ -4,6 +4,7 @@ import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.data.repository.query.Param;
 import project.backend.hotel_booking.entity.OrderRoom;
+import project.backend.hotel_booking.model.vo.RoomVO;
 import project.backend.hotel_booking.model.vo.OrderRoomDataVO;
 
 import java.time.LocalDate;
@@ -30,6 +31,20 @@ public interface OrderRoomRepository extends JpaRepository<OrderRoom,Long> {
             "where a.orderDate=:today")
     Long getTodayReversedOrder(@Param("today") LocalDate createdDate);
 
+//    @Query("""
+//    SELECT new project.backend.hotel_booking.model.vo.OrderRoomPartnerVO(
+//        userName,
+//        roomName,
+//        capacity,
+//        qualityEnum,
+//        price,
+//        orderDate
+//    )
+//    FROM MAIN_ROOM_ORDER ro
+//    LEFT JOIN MAIN_ROOM r ON r.id = ro.roomId
+//    WHERE ro.id = :orderId
+//""")
+//    Optional<RoomVO> getOrderRoomByOrderId(@Param("orderId") Long orderId);
 
     @Query(value = " select new project.backend.hotel_booking.model.vo.OrderRoomDataVO(a.orderDate,sum(a.price)) " +
             "from MAIN_ROOM_ORDER a " +

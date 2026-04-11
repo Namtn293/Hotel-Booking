@@ -14,8 +14,8 @@ public interface OrderRoomService {
     void depositOrderRoom(Long orderId);
     void payOrderRoom(Long orderId);
     void cancelOrderRoom(Long orderId);
-    List<OrderRoom> getOrderByPartner();
-    List<OrderRoom> getOrderByUserName();
+    List<OrderRoomPartnerVO> getOrderByPartner();
+    List<OrderRoomUserVO> getOrderByUserName();
 
     OrderRoomUserVO convertToOrderRoomUserVO(OrderRoom orderRoom);
     OrderRoomPartnerVO convertToOrderRoomPartnerVO(OrderRoom orderRoom);

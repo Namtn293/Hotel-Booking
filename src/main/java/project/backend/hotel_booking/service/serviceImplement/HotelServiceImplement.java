@@ -10,6 +10,7 @@ import project.backend.hotel_booking.model.dto.UpdateHotelDTO;
 import project.backend.hotel_booking.model.vo.HotelInfoVO;
 import project.backend.hotel_booking.repository.HotelsRepository;
 import project.backend.hotel_booking.service.HotelService;
+import project.backend.hotel_booking.service.NotificationService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -17,9 +18,11 @@ import java.util.List;
 @Service
 public class HotelServiceImplement implements HotelService {
     private final HotelsRepository hotelsRepository;
+    private final NotificationService notificationService;
 
-    public HotelServiceImplement(HotelsRepository hotelsRepository) {
+    public HotelServiceImplement(NotificationService notificationService,HotelsRepository hotelsRepository) {
         this.hotelsRepository = hotelsRepository;
+        this.notificationService = notificationService;
     }
 
     @Override
@@ -58,6 +61,7 @@ public class HotelServiceImplement implements HotelService {
             hotel.setActiveStatus(updateHotelDTO.getActiveStatus());
         if(updateHotelDTO.getAddress()!=null)
             hotel.setAddress(updateHotelDTO.getAddress());
+        notificationService.createNotification("Cập nhật thành công khách sạn "+String.format("KS%02d",hotelId));
         hotelsRepository.save(hotel);
     }
 
@@ -74,6 +78,7 @@ public class HotelServiceImplement implements HotelService {
                 .activeStatus(ActiveStatus.PENDING)
                 .build();
         hotelsRepository.save(hotel);
+        notificationService.createNotification("Cập nhật thành công khách sạn "+String.format("KS%02d",hotel.getId()));
         return convertToHotelInfoVO(hotel);
     }
 

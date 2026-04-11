@@ -10,8 +10,10 @@ import project.backend.hotel_booking.entity.UserInfo;
 import project.backend.hotel_booking.enumration.ErrorCode;
 import project.backend.hotel_booking.model.dto.RatingDTO;
 import project.backend.hotel_booking.model.vo.RatingVO;
+import project.backend.hotel_booking.repository.HotelsRepository;
 import project.backend.hotel_booking.repository.RatingRepository;
 import project.backend.hotel_booking.repository.UserInfoRepository;
+import project.backend.hotel_booking.service.NotificationService;
 import project.backend.hotel_booking.service.RatingService;
 
 import java.util.ArrayList;
@@ -22,10 +24,14 @@ public class RatingServiceImplement implements RatingService {
     private final RatingRepository ratingRepository;
     private final UserRepository userRepository;
     private final UserInfoRepository userInfoRepository;
-    public RatingServiceImplement(UserInfoRepository userInfoRepository,UserRepository userRepository,RatingRepository ratingRepository) {
+    private final NotificationService notificationService;
+    private final HotelsRepository hotelsRepository;
+    public RatingServiceImplement(HotelsRepository hotelsRepository,NotificationService notificationService,UserInfoRepository userInfoRepository,UserRepository userRepository,RatingRepository ratingRepository) {
         this.ratingRepository = ratingRepository;
         this.userRepository = userRepository;
         this.userInfoRepository = userInfoRepository;
+        this.notificationService = notificationService;
+        this.hotelsRepository = hotelsRepository;
     }
 
     @Override
@@ -40,6 +46,8 @@ public class RatingServiceImplement implements RatingService {
                 .reason(ratingDTO.getReason())
                 .rating(ratingDTO.getRating())
                 .build();
+
+        notificationService.createNotification("Bạn đã đánh giá khách sạn "+hotelsRepository.getHotelNameById(ratingDTO.getHotelId()));
         ratingRepository.save(rating);
     }
 

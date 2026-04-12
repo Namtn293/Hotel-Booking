@@ -197,7 +197,8 @@ public class HotelServiceImplement implements HotelService {
         hotelInfoPVO.setHotelName(hotel.getHotelName());
         hotelInfoPVO.setDescription(hotel.getDescription());
         hotelInfoPVO.setAddress(hotel.getAddress());
-        hotelInfoPVO.setUrl(imageRepositoty.findById(hotel.getId())
+        System.out.println(hotel.getId());
+        hotelInfoPVO.setUrl(imageRepositoty.findById(hotel.getImageId())
                 .orElseThrow(() -> new BusinessException(ErrorCode.IMAGE_NOT_EXIST)).getUrl());
         return hotelInfoPVO;
     }

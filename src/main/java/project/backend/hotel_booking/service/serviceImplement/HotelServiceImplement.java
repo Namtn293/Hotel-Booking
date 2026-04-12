@@ -42,8 +42,8 @@ public class HotelServiceImplement implements HotelService {
     private final OrderRoomRepository orderRoomRepository;
     private final RoomRepository roomRepository;
     private final ImageService imageService;
-    private final ImageRepositoty imageRepositoty;
-    public HotelServiceImplement(HotelsRepository hotelsRepository, PartnerInfoRepository partnerInfoRepository, UserRepository userRepository, NotificationService notificationService, OrderRoomRepository orderRoomRepository, RoomRepository roomRepository, ImageService imageService, ImageRepositoty imageRepositoty) {
+    private final ImageRepository imageRepositoty;
+    public HotelServiceImplement(HotelsRepository hotelsRepository, PartnerInfoRepository partnerInfoRepository, UserRepository userRepository, NotificationService notificationService, OrderRoomRepository orderRoomRepository, RoomRepository roomRepository, ImageService imageService, ImageRepository imageRepositoty) {
         this.hotelsRepository = hotelsRepository;
         this.partnerInfoRepository = partnerInfoRepository;
         this.userRepository = userRepository;
@@ -200,8 +200,10 @@ public class HotelServiceImplement implements HotelService {
         hotelInfoPVO.setDescription(hotel.getDescription());
         hotelInfoPVO.setAddress(hotel.getAddress());
         hotelInfoPVO.setUrl(imageRepositoty.findById(hotel.getId())
-                .orElseThrow(()->new BusinessException(ErrorCode.IMAGE_NOT_EXIST)).getUrl());
+                .orElseThrow(() -> new BusinessException(ErrorCode.IMAGE_NOT_EXIST)).getUrl());
         return hotelInfoPVO;
+    }
+
     public List<HotelStatisticVO> getTop5GHotelStatistic() {
         List<Hotel> list=hotelsRepository.getTop5Hotel();
         List<HotelStatisticVO> hotelStatisticVOS=new ArrayList<>();

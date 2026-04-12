@@ -78,11 +78,12 @@ public class HotelController {
     }
 
     @DeleteMapping("/{hotelId}")
-    SuccessResponse<String> deleteHotel(@PathVariable Long hotelId){
+    SuccessResponse<String> deleteHotel(@PathVariable Long hotelId) {
         hotelService.deleteHotelInfo(hotelId);
         return ResponseUtil.ok(
                 "delete hotel info success"
         );
+    }
 
     @GetMapping("/get-top5-hotel-pending")
     SuccessResponse<List<HotelStatisticVO>> getTop5HotelPending(){

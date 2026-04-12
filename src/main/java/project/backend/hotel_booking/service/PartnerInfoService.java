@@ -8,8 +8,6 @@ import java.util.List;
 public interface PartnerInfoService {
     List<PartnerInfoVO> getAllPartnerPending();
 
-    void approvalPartner(String partnerId);
-
     void rejectPartner(String partnerId);
 
     void bandPartner(Long partnerId);

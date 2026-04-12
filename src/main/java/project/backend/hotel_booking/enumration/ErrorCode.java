@@ -5,12 +5,13 @@ import lombok.Getter;
 @Getter
 public enum ErrorCode {
     NULL_FIELD("400","Fill all necessary field"),
+    INVALID_DATE("400","Check in must be before check out"),
     ROOM_NOT_EXIST("404","Room not exist"),
     IMAGE_NOT_EXIST("404","Image not exist"),
     FAIL_UPLOAD_IMAGE("404","Can't upload image"),
     FAIL_DELETE_IMAGE("404","Can't delete image"),
     HOTEL_NOT_EXIST("404","Hotel not exist"),
-    ORDER_NOT_EXIST("404","ORDER not exist"),
+    ORDER_NOT_EXIST("404","Order not exist"),
     USER_ALREADY_EXIST("409","User already exist"),
     USER_NOT_ALREADY_EXIST("409","User not already exist"),
     FORBIDDEN("403","You do not have permission to perform this action"),

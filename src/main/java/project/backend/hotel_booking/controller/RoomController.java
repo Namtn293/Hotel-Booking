@@ -6,6 +6,7 @@ import project.backend.hotel_booking.core.util.ResponseUtil;
 import project.backend.hotel_booking.core.util.SuccessResponse;
 import project.backend.hotel_booking.entity.Room;
 import project.backend.hotel_booking.model.dto.RoomCreateDTO;
+import project.backend.hotel_booking.model.dto.RoomFindDTO;
 import project.backend.hotel_booking.model.dto.RoomUpdateDTO;
 import project.backend.hotel_booking.model.vo.RoomPVO;
 import project.backend.hotel_booking.model.vo.RoomVO;
@@ -71,11 +72,11 @@ public class RoomController {
         );
     }
 
-    @GetMapping("/all")
-    SuccessResponse<List<RoomVO>> getAllRooms(){
+    @GetMapping("/find")
+    SuccessResponse<List<RoomVO>> findRoomByRequire(@RequestBody RoomFindDTO roomFindDTO){
         return ResponseUtil.ok(
-                "Get all room success",
-                roomService.getAllRooms()
+                "Get all room by require success",
+                roomService.findRoomByRequire(roomFindDTO)
         );
     }
 }

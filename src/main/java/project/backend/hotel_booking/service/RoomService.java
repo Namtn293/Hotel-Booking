@@ -3,6 +3,7 @@ package project.backend.hotel_booking.service;
 import org.springframework.web.multipart.MultipartFile;
 import project.backend.hotel_booking.entity.Room;
 import project.backend.hotel_booking.model.dto.RoomCreateDTO;
+import project.backend.hotel_booking.model.dto.RoomFindDTO;
 import project.backend.hotel_booking.model.dto.RoomUpdateDTO;
 import project.backend.hotel_booking.model.vo.RoomPVO;
 import project.backend.hotel_booking.model.vo.RoomVO;
@@ -19,6 +20,7 @@ public interface RoomService {
     void deleteRoomById(Long Id);
     List<RoomPVO> getAllRoomsInPartner();
     List<RoomVO> getAllRooms();
+    List<RoomVO> findRoomByRequire(RoomFindDTO roomFindDTO);
 
     RoomVO convertToRoomVO(Room room);
     RoomPVO convertToRoomPVO(Room room);

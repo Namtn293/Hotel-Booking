@@ -24,11 +24,6 @@ public class PartnerInfoController {
         return ResponseUtil.ok("Get success",partnerInfoService.getAllPartnerPending());
     }
 
-    @PostMapping("/approval/{partnerId}")
-    public SuccessResponse<String> approvalPartner(@PathVariable String partnerId){
-        partnerInfoService.approvalPartner(partnerId);
-        return ResponseUtil.ok("Approval success");
-    }
 
     @PostMapping("/reject/{partnerId}")
     public SuccessResponse<String> rejectPartner(@PathVariable String partnerId){

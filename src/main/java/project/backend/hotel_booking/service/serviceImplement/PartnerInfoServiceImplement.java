@@ -31,14 +31,6 @@ public class PartnerInfoServiceImplement implements PartnerInfoService {
     }
 
     @Override
-    public void approvalPartner(String partnerId) {
-        Long id=Long.parseLong(partnerId.trim().substring(2));
-        PartnerInfo partnerInfo=partnerInfoRepository.findById(id).orElseThrow(()-> new BusinessException(ErrorCode.PARTNER_NOT_ALREADY_EXIST));
-        partnerInfo.setPartnerStatus(PartnerStatus.ACTIVE);
-        partnerInfoRepository.save(partnerInfo);
-    }
-
-    @Override
     public void rejectPartner(String partnerId) {
         Long id=Long.parseLong(partnerId.trim().substring(2));
         PartnerInfo partnerInfo=partnerInfoRepository.findById(id).orElseThrow(()-> new BusinessException(ErrorCode.PARTNER_NOT_ALREADY_EXIST));

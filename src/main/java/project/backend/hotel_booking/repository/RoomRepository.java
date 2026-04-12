@@ -7,6 +7,7 @@ import org.springframework.stereotype.Repository;
 import project.backend.hotel_booking.entity.Room;
 import project.backend.hotel_booking.model.vo.RoomVO;
 
+import java.time.LocalDate;
 import java.util.List;
 import java.util.Optional;
 
@@ -46,4 +47,22 @@ public interface RoomRepository extends JpaRepository<Room,Long> {
         i.url
 """)
     Optional<RoomVO> getRoomByRoomId(@Param("roomId") Long roomId);
+
+    @Query("""
+    SELECT r
+    FROM MAIN_ROOM r
+    WHERE r.hotelId IN :hotelIds
+    AND NOT EXISTS (
+        SELECT 1
+        FROM MAIN_ROOM_ORDER o
+        WHERE o.roomId = r.id
+        AND o.startDate <= :checkOut
+        AND o.endDate >= :checkIn
+    )
+""")
+    List<Room> findAvailableRooms(
+            @Param("hotelIds") List<Long> hotelIds,
+            @Param("checkIn") LocalDate checkIn,
+            @Param("checkOut") LocalDate checkOut
+    );
 }

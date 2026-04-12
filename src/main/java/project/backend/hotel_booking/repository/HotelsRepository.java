@@ -29,4 +29,8 @@ public interface HotelsRepository extends JpaRepository<Hotel,Long> {
             "from Hotel a " +
             "where a.createdDate=:date and a.hotelEnum=2")
     Long getNewHotelPending(@Param("date")LocalDate createdDate);
+
+    @Query(value = "Select h.* from Hotel h "+
+    "Where unaccent(lower(h.address)) like unaccent(lower(concat('%', :content, '%')))", nativeQuery = true)
+    List<Hotel> getHotelByContent(String content);
 }

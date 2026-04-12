@@ -14,7 +14,6 @@ import project.backend.hotel_booking.model.dto.OrderRoomDTO;
 import project.backend.hotel_booking.model.vo.OrderRoomDataVO;
 import project.backend.hotel_booking.model.vo.OrderRoomPartnerVO;
 import project.backend.hotel_booking.model.vo.OrderRoomUserVO;
-import project.backend.hotel_booking.model.vo.RoomVO;
 import project.backend.hotel_booking.repository.*;
 import project.backend.hotel_booking.repository.OrderRoomRepository;
 import project.backend.hotel_booking.repository.RoomRepository;

@@ -7,20 +7,15 @@ import project.backend.hotel_booking.core.auth.entity.User;
 import project.backend.hotel_booking.core.auth.repository.UserRepository;
 import project.backend.hotel_booking.core.configuration.ThreadContext;
 import project.backend.hotel_booking.core.util.BusinessException;
-import project.backend.hotel_booking.entity.Hotel;
-import project.backend.hotel_booking.entity.Image;
-import project.backend.hotel_booking.entity.PartnerInfo;
-import project.backend.hotel_booking.entity.Room;
+import project.backend.hotel_booking.entity.*;
 import project.backend.hotel_booking.enumration.ActiveStatus;
 import project.backend.hotel_booking.enumration.ErrorCode;
 import project.backend.hotel_booking.model.dto.RoomCreateDTO;
+import project.backend.hotel_booking.model.dto.RoomFindDTO;
 import project.backend.hotel_booking.model.dto.RoomUpdateDTO;
 import project.backend.hotel_booking.model.vo.RoomPVO;
 import project.backend.hotel_booking.model.vo.RoomVO;
-import project.backend.hotel_booking.repository.HotelsRepository;
-import project.backend.hotel_booking.repository.ImageRepository;
-import project.backend.hotel_booking.repository.PartnerInfoRepository;
-import project.backend.hotel_booking.repository.RoomRepository;
+import project.backend.hotel_booking.repository.*;
 import project.backend.hotel_booking.service.ImageService;
 import project.backend.hotel_booking.service.NotificationService;
 import project.backend.hotel_booking.service.RoomService;
@@ -39,8 +34,9 @@ public class RoomServiceImplement implements RoomService {
     private final ImageRepository imageRepository;
     private final UserRepository userRepository;
     private final PartnerInfoRepository partnerInfoRepository;
+    private final OrderRoomRepository orderRoomRepository;
 
-    public RoomServiceImplement(NotificationService notificationService, RoomRepository roomRepository, HotelsRepository hotelsRepository, ImageService imageService, ImageRepository imageRepository, UserRepository userRepository, PartnerInfoRepository partnerInfoRepository) {
+    public RoomServiceImplement(NotificationService notificationService, RoomRepository roomRepository, HotelsRepository hotelsRepository, ImageService imageService, ImageRepository imageRepository, UserRepository userRepository, PartnerInfoRepository partnerInfoRepository, OrderRoomRepository orderRoomRepository) {
         this.roomRepository = roomRepository;
         this.hotelsRepository = hotelsRepository;
         this.notificationService = notificationService;
@@ -48,6 +44,7 @@ public class RoomServiceImplement implements RoomService {
         this.imageRepository = imageRepository;
         this.userRepository = userRepository;
         this.partnerInfoRepository = partnerInfoRepository;
+        this.orderRoomRepository = orderRoomRepository;
     }
     @Transactional
     @Override
@@ -153,6 +150,32 @@ public class RoomServiceImplement implements RoomService {
             roomVOS.add(roomRepository.getRoomByRoomId(r.getId()).orElseThrow(()->new BusinessException(ErrorCode.ROOM_NOT_EXIST)));
         });
         return roomVOS;
+    }
+
+    @Override
+    public List<RoomVO> findRoomByRequire(RoomFindDTO roomFindDTO) {
+
+        if (roomFindDTO.getCheckIn().isAfter(roomFindDTO.getCheckOut()) ||
+                roomFindDTO.getCheckIn().equals(roomFindDTO.getCheckOut()))
+        {throw new BusinessException(ErrorCode.INVALID_DATE);}
+
+        List<Hotel> hotels = hotelsRepository.getHotelByContent(roomFindDTO.getContent());
+
+        List<Long> hotelIds = hotels.stream()
+                .map(Hotel::getId)
+                .toList();
+
+        if (hotelIds.isEmpty()) {
+            return new ArrayList<>();
+        }
+
+        List<Room> rooms = roomRepository.findAvailableRooms(hotelIds, roomFindDTO.getCheckIn(), roomFindDTO.getCheckOut());
+
+        return rooms.stream()
+                .map(room -> roomRepository
+                        .getRoomByRoomId(room.getId())
+                        .orElseThrow(() -> new BusinessException(ErrorCode.ROOM_NOT_EXIST)))
+                .toList();
     }
 
     @Override

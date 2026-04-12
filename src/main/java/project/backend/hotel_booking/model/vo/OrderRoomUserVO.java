@@ -14,7 +14,7 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderRoomUserVO {
-    private String RoomName;
+    private String roomName;
 
     private String hotelName;
 
@@ -30,5 +30,5 @@ public class OrderRoomUserVO {
 
     private PaymentStatus paymentStatus;
 
-    private Long RoomId;
+    private Long roomId;
 }

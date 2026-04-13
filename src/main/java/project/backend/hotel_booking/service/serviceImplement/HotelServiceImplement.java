@@ -7,10 +7,7 @@ import org.springframework.web.multipart.MultipartFile;
 import project.backend.hotel_booking.core.auth.repository.UserRepository;
 import project.backend.hotel_booking.core.configuration.ThreadContext;
 import project.backend.hotel_booking.core.util.BusinessException;
-import project.backend.hotel_booking.entity.Hotel;
-import project.backend.hotel_booking.entity.Image;
-import project.backend.hotel_booking.entity.PartnerInfo;
-import project.backend.hotel_booking.entity.Room;
+import project.backend.hotel_booking.entity.*;
 import project.backend.hotel_booking.enumration.ActiveStatus;
 import project.backend.hotel_booking.enumration.ErrorCode;
 import project.backend.hotel_booking.enumration.HotelEnum;
@@ -130,10 +127,17 @@ public class HotelServiceImplement implements HotelService {
     public void deleteHotelInfo(Long hotelId) {
         Hotel hotel = hotelsRepository.findById(hotelId)
                 .orElseThrow(()->new BusinessException(ErrorCode.HOTEL_NOT_EXIST));
-        orderRoomRepository.deleteAllByHotelId(hotelId);
-        roomRepository.deleteAllByHotelId(hotelId);
+        List<OrderRoom> orderRooms = orderRoomRepository.findAllByHotelId(hotelId);
+        for(var orderRoom:orderRooms){
+            orderRoom.setHotelId(null);
+        }
+        List<Room> rooms = roomRepository.findAllByHotelId(hotelId);
+        for (Room room : rooms) {
+            if(room.getImageId()!=null)imageService.deleteImage(room.getImageId());
+            roomRepository.delete(room);
+        }
         if(hotel.getImageId()!=null) imageService.deleteImage(hotel.getImageId());
-        hotelsRepository.deleteById(hotelId);
+        hotelsRepository.delete(hotel);
     }
 
     @Transactional

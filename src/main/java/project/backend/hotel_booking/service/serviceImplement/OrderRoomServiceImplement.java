@@ -36,7 +36,8 @@ public class OrderRoomServiceImplement implements OrderRoomService {
     private final UserRepository userRepository;
     private final PartnerInfoRepository partnerInfoRepository;
     private final NotificationService notificationService;
-    public OrderRoomServiceImplement(OrderRoomRepository orderRoomRepository, RoomRepository roomRepository, HotelsRepository hotelsRepository, UserInfoRepository userInfoRepository, UserRepository userRepository, PartnerInfoRepository partnerInfoRepository, NotificationService notificationService) {
+    private final ImageRepository imageRepository;
+    public OrderRoomServiceImplement(OrderRoomRepository orderRoomRepository, RoomRepository roomRepository, HotelsRepository hotelsRepository, UserInfoRepository userInfoRepository, UserRepository userRepository, PartnerInfoRepository partnerInfoRepository, NotificationService notificationService, ImageRepository imageRepository) {
         this.orderRoomRepository = orderRoomRepository;
         this.roomRepository = roomRepository;
         this.hotelsRepository = hotelsRepository;
@@ -44,10 +45,11 @@ public class OrderRoomServiceImplement implements OrderRoomService {
         this.userRepository = userRepository;
         this.partnerInfoRepository = partnerInfoRepository;
         this.notificationService = notificationService;
+        this.imageRepository = imageRepository;
     }
 
     @Override
-    public void createOrderRoom(OrderRoomDTO orderRoomDTO) {
+    public Long createOrderRoom(OrderRoomDTO orderRoomDTO) {
         OrderRoom orderRoom = new OrderRoom();
         orderRoom.setUserName(ThreadContext.getUserDetail().getUsername());
         orderRoom.setHotelId(orderRoomDTO.getHotelId());
@@ -61,6 +63,7 @@ public class OrderRoomServiceImplement implements OrderRoomService {
         orderRoom.setEndDate(orderRoomDTO.getEndDate());
         orderRoom.prePersist();
         orderRoomRepository.save(orderRoom);
+        return orderRoom.getId();
     }
 
     @Override
@@ -175,7 +178,13 @@ public class OrderRoomServiceImplement implements OrderRoomService {
                 .orElseThrow(()->new BusinessException(ErrorCode.HOTEL_NOT_EXIST));
         orderRoomUserVO.setHotelName(hotel.getHotelName());
         orderRoomUserVO.setAddress(hotel.getAddress());
-
+        String url = null;
+        if(room.getImageId()!=null){
+            Image image = imageRepository.findById(room.getImageId())
+                    .orElse(null);
+            if(image!=null)url = image.getUrl();
+        }
+        orderRoomUserVO.setUrl(url);
 
         return orderRoomUserVO;
     }

@@ -42,6 +42,8 @@ public class OrderRoom extends EntityBase {
 
     private PaymentStatus paymentStatus;
 
+    private String url;
+
     @Enumerated(EnumType.STRING)
     private OrderStatus orderStatus=OrderStatus.UNCOMPLETED;
 

@@ -22,10 +22,11 @@ public class OrderRoomController {
     }
 
     @PostMapping("/create")
-    SuccessResponse<String> createOrderRoom(@RequestBody OrderRoomDTO orderRoomDTO){
-        orderRoomService.createOrderRoom(orderRoomDTO);
+    SuccessResponse<Long> createOrderRoom(@RequestBody OrderRoomDTO orderRoomDTO){
+
         return ResponseUtil.ok(
-                "create order success"
+                "create order success",
+                orderRoomService.createOrderRoom(orderRoomDTO)
         );
     }
 

@@ -182,7 +182,7 @@ public class RoomServiceImplement implements RoomService {
     @Override
     public RoomVO convertToRoomVO(Room room) {
         RoomVO roomVO = new RoomVO();
-        roomVO.setId(room.getId());
+        roomVO.setId(room.getId()!=null?room.getId():null);
         roomVO.setRoomName(room.getRoomName());
         roomVO.setPrice(room.getPrice());
         roomVO.setCapacity(room.getCapacity());

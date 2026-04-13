@@ -10,7 +10,7 @@ import java.time.LocalDate;
 import java.util.List;
 
 public interface OrderRoomService {
-    void createOrderRoom(OrderRoomDTO orderRoomDTO);
+    Long createOrderRoom(OrderRoomDTO orderRoomDTO);
     void depositOrderRoom(Long orderId);
     void payOrderRoom(Long orderId);
     void cancelOrderRoom(Long orderId);

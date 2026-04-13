@@ -33,4 +33,6 @@ public class OrderRoomUserVO {
     private PaymentStatus paymentStatus;
 
     private Long roomId;
+
+    private String url;
 }

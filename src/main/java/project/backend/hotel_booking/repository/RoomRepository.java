@@ -67,8 +67,8 @@ public interface RoomRepository extends JpaRepository<Room,Long> {
         WHERE o.roomId = r.id
         AND o.startDate <= :checkOut
         AND o.endDate >= :checkIn
-        AND (o.paymentStatus = :paymentStatus
-        OR o.paymentStatus = NULL)
+        AND (o.paymentStatus = :paymentCancel
+        OR o.paymentStatus = :paymentNone)
     )
 """)
     List<Room> findAvailableRooms(
@@ -76,7 +76,8 @@ public interface RoomRepository extends JpaRepository<Room,Long> {
             @Param("checkIn") LocalDate checkIn,
             @Param("checkOut") LocalDate checkOut,
             @Param("status") ActiveStatus status,
-            @Param("paymentStatus")PaymentStatus paymentStatus
+            @Param("paymentCancel")PaymentStatus paymentCancel,
+            @Param("paymentNone")PaymentStatus paymentNone
     );
 
     @Query(value = "select a.roomName " +

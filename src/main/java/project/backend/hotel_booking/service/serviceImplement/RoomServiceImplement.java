@@ -172,7 +172,7 @@ public class RoomServiceImplement implements RoomService {
             return new ArrayList<>();
         }
 
-        List<Room> rooms = roomRepository.findAvailableRooms(hotelIds, roomFindDTO.getCheckIn(), roomFindDTO.getCheckOut(),ActiveStatus.ACTIVE, PaymentStatus.CANCELLED);
+        List<Room> rooms = roomRepository.findAvailableRooms(hotelIds, roomFindDTO.getCheckIn(), roomFindDTO.getCheckOut(),ActiveStatus.ACTIVE, PaymentStatus.CANCELLED, PaymentStatus.NONE);
 
         return rooms.stream()
                 .map(room -> roomRepository
@@ -199,16 +199,17 @@ public class RoomServiceImplement implements RoomService {
     @Override
     public RoomPVO convertToRoomPVO(Room room) {
         RoomPVO roomPVO = new RoomPVO();
-        roomPVO.setRoomName(roomPVO.getRoomName());
+        roomPVO.setRoomName(room.getRoomName());
         roomPVO.setRoomId(room.getId());
         roomPVO.setHotelId(room.getHotelId());
+        roomPVO.setHotelName(hotelsRepository.findById(room.getHotelId()).orElseThrow(()->new BusinessException(ErrorCode.HOTEL_NOT_EXIST)).getHotelName());
         Image image = imageRepository.findById(room.getImageId())
                 .orElseThrow(()->new BusinessException(ErrorCode.IMAGE_NOT_EXIST));
         roomPVO.setUrl(image.getUrl());
         roomPVO.setQualityEnum(room.getQualityEnum());
         roomPVO.setPrice(room.getPrice());
         roomPVO.setDescription(room.getDescription());
-        roomPVO.setCapacity(roomPVO.getCapacity());
+        roomPVO.setCapacity(room.getCapacity());
         roomPVO.setActiveStatus(room.getActiveStatus());
         return roomPVO;
     }

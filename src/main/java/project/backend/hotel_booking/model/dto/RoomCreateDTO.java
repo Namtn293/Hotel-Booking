@@ -13,4 +13,5 @@ public class RoomCreateDTO {
     private Long capacity;
     private double price;
     private QualityEnum qualityEnum;
+    private String description;
 }

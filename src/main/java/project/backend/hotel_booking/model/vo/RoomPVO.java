@@ -12,9 +12,11 @@ import project.backend.hotel_booking.enumration.QualityEnum;
 @AllArgsConstructor
 public class RoomPVO {
     private Long roomId;
+    private String roomName;
     private String url;
     private QualityEnum quality;
     private Double price;
     private Long hotelId;
     private String hotelName;
+    private String description;
 }

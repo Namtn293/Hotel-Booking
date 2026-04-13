@@ -24,4 +24,5 @@ public class RoomVO {
     private Long count;
     private Double point;
     private String url;
+    private String description;
 }

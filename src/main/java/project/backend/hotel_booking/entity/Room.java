@@ -28,4 +28,6 @@ public class Room extends EntityBase {
     private QualityEnum qualityEnum;
 
     private Long imageId;
+
+    private String description;
 }

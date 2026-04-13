@@ -18,6 +18,8 @@ public class OrderRoomPartnerVO {
 
     private String roomName;
 
+    private String hotelName;
+
     private Long capacity;
 
     private QualityEnum qualityEnum;

@@ -58,9 +58,10 @@ public class OrderRoomServiceImplement implements OrderRoomService {
         orderRoom.setHotelId(room.getHotelId());
         orderRoom.setCapacity(room.getCapacity());
         orderRoom.setQualityEnum(room.getQualityEnum());
-        orderRoom.setPrice(room.getPrice()*Math.abs(ChronoUnit.DAYS.between(orderRoomDTO.getStartDate(),orderRoomDTO.getEndDate())));
+        orderRoom.setPrice(room.getPrice()*Math.abs(ChronoUnit.DAYS.between(orderRoomDTO.getStartDate(),orderRoomDTO.getEndDate())+1));
         orderRoom.setStartDate(orderRoomDTO.getStartDate());
         orderRoom.setEndDate(orderRoomDTO.getEndDate());
+        orderRoom.setPaymentStatus(PaymentStatus.NONE);
         orderRoom.prePersist();
         orderRoomRepository.save(orderRoom);
         notificationService.createNotification("Đặt phòng mới thành công ");
@@ -198,6 +199,8 @@ public class OrderRoomServiceImplement implements OrderRoomService {
         orderRoomPartnerVO.setQualityEnum(orderRoom.getQualityEnum());
         orderRoomPartnerVO.setPrice(orderRoom.getPrice());
         orderRoomPartnerVO.setOrderDate(orderRoom.getOrderDate());
+        orderRoomPartnerVO.setHotelName(hotelsRepository.findById(orderRoom.getHotelId())
+                .orElseThrow(()->new BusinessException(ErrorCode.HOTEL_NOT_EXIST)).getHotelName());
         Room room = roomRepository.findById(orderRoom.getRoomId())
                 .orElseThrow(()->new BusinessException(ErrorCode.ROOM_NOT_EXIST));
         orderRoomPartnerVO.setRoomName(room.getRoomName());

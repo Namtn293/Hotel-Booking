@@ -112,6 +112,14 @@ public class HotelServiceImplement implements HotelService {
                 .orElseThrow(()->new BusinessException(ErrorCode.HOTEL_NOT_EXIST));
         hotel.setHotelEnum(status);
         hotelsRepository.save(hotel);
+        if(status.equals(HotelEnum.REJECT)){
+            deleteHotelInfo(hotelId);
+        }else if(status.equals(HotelEnum.ACCEPT)){
+            List<Room> rooms = roomRepository.findAllByHotelId(hotelId);
+            for (Room room : rooms) {
+                room.setActiveStatus(ActiveStatus.ACTIVE);
+            }
+        }
     }
 
     @Override

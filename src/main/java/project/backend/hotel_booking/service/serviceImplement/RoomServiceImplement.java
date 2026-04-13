@@ -10,6 +10,7 @@ import project.backend.hotel_booking.core.util.BusinessException;
 import project.backend.hotel_booking.entity.*;
 import project.backend.hotel_booking.enumration.ActiveStatus;
 import project.backend.hotel_booking.enumration.ErrorCode;
+import project.backend.hotel_booking.enumration.PaymentStatus;
 import project.backend.hotel_booking.model.dto.RoomCreateDTO;
 import project.backend.hotel_booking.model.dto.RoomFindDTO;
 import project.backend.hotel_booking.model.dto.RoomUpdateDTO;
@@ -54,8 +55,9 @@ public class RoomServiceImplement implements RoomService {
                 .capacity(roomCreateDTO.getCapacity())
                 .price(roomCreateDTO.getPrice())
                 .qualityEnum(roomCreateDTO.getQualityEnum())
-                .activeStatus(ActiveStatus.ACTIVE)
+                .activeStatus(ActiveStatus.PENDING)
                 .hotelId(hotelId)
+                .description(roomCreateDTO.getDescription())
                 .build();
         if(image!=null && !image.isEmpty()){
             Image newImage = imageService.uploadImage(image);
@@ -170,7 +172,7 @@ public class RoomServiceImplement implements RoomService {
             return new ArrayList<>();
         }
 
-        List<Room> rooms = roomRepository.findAvailableRooms(hotelIds, roomFindDTO.getCheckIn(), roomFindDTO.getCheckOut());
+        List<Room> rooms = roomRepository.findAvailableRooms(hotelIds, roomFindDTO.getCheckIn(), roomFindDTO.getCheckOut(),ActiveStatus.ACTIVE, PaymentStatus.CANCELLED);
 
         return rooms.stream()
                 .map(room -> roomRepository
@@ -190,12 +192,14 @@ public class RoomServiceImplement implements RoomService {
         roomVO.setQualityEnum(room.getQualityEnum());
         roomVO.setHotelName(hotelsRepository.getHotelNameById(room.getHotelId()));
         roomVO.setHotelId(room.getHotelId());
+        roomVO.setDescription(room.getDescription());
         return roomVO;
     }
 
     @Override
     public RoomPVO convertToRoomPVO(Room room) {
         RoomPVO roomPVO = new RoomPVO();
+        roomPVO.setRoomName(roomPVO.getRoomName());
         roomPVO.setRoomId(room.getId());
         roomPVO.setHotelId(room.getHotelId());
         Image image = imageRepository.findById(room.getImageId())
@@ -203,7 +207,7 @@ public class RoomServiceImplement implements RoomService {
         roomPVO.setUrl(image.getUrl());
         roomPVO.setQuality(room.getQualityEnum());
         roomPVO.setPrice(room.getPrice());
+        roomPVO.setDescription(room.getDescription());
         return roomPVO;
     }
-
 }

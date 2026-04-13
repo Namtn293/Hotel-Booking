@@ -58,7 +58,7 @@ public class OrderRoomServiceImplement implements OrderRoomService {
         orderRoom.setHotelId(room.getHotelId());
         orderRoom.setCapacity(room.getCapacity());
         orderRoom.setQualityEnum(room.getQualityEnum());
-        orderRoom.setPrice(room.getPrice());
+        orderRoom.setPrice(room.getPrice()*Math.abs(ChronoUnit.DAYS.between(orderRoomDTO.getStartDate(),orderRoomDTO.getEndDate())));
         orderRoom.setStartDate(orderRoomDTO.getStartDate());
         orderRoom.setEndDate(orderRoomDTO.getEndDate());
         orderRoom.prePersist();

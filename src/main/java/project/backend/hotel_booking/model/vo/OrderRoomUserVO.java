@@ -14,6 +14,8 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderRoomUserVO {
+    private Long id;
+
     private String roomName;
 
     private String hotelName;

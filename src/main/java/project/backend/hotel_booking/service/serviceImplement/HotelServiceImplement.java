@@ -149,7 +149,10 @@ public class HotelServiceImplement implements HotelService {
                 !StringUtils.hasText(hotelRegisterDTO.getAddress())) {
             throw new BusinessException(ErrorCode.NULL_FIELD);
         }
-        Image newImage = imageService.uploadImage(image);
+        Image newImage = null;
+        if (image != null && !image.isEmpty()) {
+            newImage = imageService.uploadImage(image);
+        }
         System.out.println(newImage.getUrl());
         Hotel hotel = Hotel.builder()
                 .partnerId(partnerInfo.getId())
@@ -158,6 +161,7 @@ public class HotelServiceImplement implements HotelService {
                 .description(hotelRegisterDTO.getDescription())
                 .activeStatus(ActiveStatus.PENDING)
                 .hotelEnum(HotelEnum.PENDING)
+                .imageId(newImage != null ? newImage.getId() : null)
                 .imageId(newImage.getId())
                 .build();
         hotelsRepository.save(hotel);
@@ -198,8 +202,11 @@ public class HotelServiceImplement implements HotelService {
         hotelInfoPVO.setDescription(hotel.getDescription());
         hotelInfoPVO.setAddress(hotel.getAddress());
         System.out.println(hotel.getId());
-        hotelInfoPVO.setUrl(imageRepositoty.findById(hotel.getImageId())
-                .orElseThrow(() -> new BusinessException(ErrorCode.IMAGE_NOT_EXIST)).getUrl());
+        if (hotel.getImageId() != null) {
+            hotelInfoPVO.setUrl(imageRepositoty.findById(hotel.getImageId())
+                    .map(Image::getUrl)
+                    .orElse(null));
+        }
         return hotelInfoPVO;
     }
 

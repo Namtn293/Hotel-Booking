@@ -10,6 +10,6 @@ import java.util.List;
 
 public interface RatingService {
     void createRating(RatingDTO ratingDTO, MultipartFile file) throws IOException;
-    List<RatingVO> getHotelRating(RatingGetDTO ratingGetDTO);
+    List<RatingVO> getHotelRating(Long roomId);
 }
 

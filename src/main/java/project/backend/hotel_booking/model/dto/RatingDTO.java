@@ -6,6 +6,5 @@ import lombok.Data;
 public class RatingDTO {
     private Long rating;
     private String reason;
-    private Long hotelId;
     private Long roomId;
 }

@@ -14,10 +14,7 @@ import project.backend.hotel_booking.enumration.ErrorCode;
 import project.backend.hotel_booking.model.dto.RatingDTO;
 import project.backend.hotel_booking.model.dto.RatingGetDTO;
 import project.backend.hotel_booking.model.vo.RatingVO;
-import project.backend.hotel_booking.repository.HotelsRepository;
-import project.backend.hotel_booking.repository.ImageRepository;
-import project.backend.hotel_booking.repository.RatingRepository;
-import project.backend.hotel_booking.repository.UserInfoRepository;
+import project.backend.hotel_booking.repository.*;
 import project.backend.hotel_booking.service.ImageService;
 import project.backend.hotel_booking.service.NotificationService;
 import project.backend.hotel_booking.service.RatingService;
@@ -35,8 +32,9 @@ public class RatingServiceImplement implements RatingService {
     private final HotelsRepository hotelsRepository;
     private final ImageService imageService;
     private final ImageRepository imageRepository;
+    private final RoomRepository roomRepository;
 
-    public RatingServiceImplement(ImageRepository imageRepository, ImageService imageService, HotelsRepository hotelsRepository, NotificationService notificationService, UserInfoRepository userInfoRepository, UserRepository userRepository, RatingRepository ratingRepository) {
+    public RatingServiceImplement(RoomRepository roomRepository,ImageRepository imageRepository, ImageService imageService, HotelsRepository hotelsRepository, NotificationService notificationService, UserInfoRepository userInfoRepository, UserRepository userRepository, RatingRepository ratingRepository) {
         this.ratingRepository = ratingRepository;
         this.userRepository = userRepository;
         this.userInfoRepository = userInfoRepository;
@@ -44,6 +42,7 @@ public class RatingServiceImplement implements RatingService {
         this.hotelsRepository = hotelsRepository;
         this.imageService = imageService;
         this.imageRepository = imageRepository;
+        this.roomRepository = roomRepository;
     }
 
 
@@ -51,12 +50,11 @@ public class RatingServiceImplement implements RatingService {
     @Override
     public void createRating(RatingDTO ratingDTO, MultipartFile file) throws IOException {
         User user= userRepository.findByUserName(ThreadContext.getUserDetail().getUsername()).orElseThrow(()->new BusinessException(ErrorCode.USER_NOT_ALREADY_EXIST));
-        if (ratingRepository.existsByUserIdAndHotelId(user.getId(),ratingDTO.getHotelId())){
+        if (ratingRepository.existsByUserIdAndRoomId(user.getId(),ratingDTO.getRoomId())){
             throw new BusinessException(ErrorCode.USER_ALREADY_HAVE_RATING);
         }
         Image image=imageService.uploadImage(file);
         Rating rating=Rating.builder()
-                .hotelId(ratingDTO.getHotelId())
                 .userId(user.getId())
                 .reason(ratingDTO.getReason())
                 .rating(ratingDTO.getRating())
@@ -64,13 +62,13 @@ public class RatingServiceImplement implements RatingService {
                 .roomId(ratingDTO.getRoomId())
                 .build();
 
-        notificationService.createNotification("Bạn đã đánh giá khách sạn "+hotelsRepository.getHotelNameById(ratingDTO.getHotelId()));
+        notificationService.createNotification("Bạn đã đánh giá phòng"+roomRepository.getRoomNameById(ratingDTO.getRoomId()));
         ratingRepository.save(rating);
     }
 
     @Override
-    public List<RatingVO> getHotelRating(RatingGetDTO ratingGetDTO) {
-        List<Rating> list=ratingRepository.getRatingByHotelIdAndRoomId(ratingGetDTO.getHotelId(), ratingGetDTO.getRoomId());
+    public List<RatingVO> getHotelRating(Long roomId) {
+        List<Rating> list=ratingRepository.getRatingByRoomId(roomId);
         List<RatingVO> voList=new ArrayList<>();
         list.forEach(c->{
             UserInfo userInfo=userInfoRepository.getUserInfoByUserId(c.getUserId()).orElseThrow(()-> new BusinessException(ErrorCode.USER_NOT_ALREADY_EXIST));

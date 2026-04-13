@@ -32,8 +32,8 @@ public class RatingController {
         return ResponseUtil.ok("Create Rating success");
     }
 
-    @PostMapping("/get/all")
-    public SuccessResponse<List<RatingVO>> getAllHotelRatings(@RequestBody RatingGetDTO ratingDTO){
-        return ResponseUtil.ok("Get all ratings success",ratingService.getHotelRating(ratingDTO));
+    @PostMapping("/get/all/{roomId}")
+    public SuccessResponse<List<RatingVO>> getAllHotelRatings(@PathVariable Long roomId){
+        return ResponseUtil.ok("Get all ratings success",ratingService.getHotelRating(roomId));
     }
 }

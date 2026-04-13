@@ -9,7 +9,7 @@ import java.util.List;
 @Repository
 public interface RatingRepository extends JpaRepository<Rating,Long> {
 
-    boolean existsByUserIdAndHotelId(Long userId,Long hotelId);
+    boolean existsByUserIdAndRoomId(Long userId,Long roomId);
 
-    List<Rating> getRatingByHotelIdAndRoomId(Long hotelId,Long roomId);
+    List<Rating> getRatingByRoomId(Long roomId);
 }

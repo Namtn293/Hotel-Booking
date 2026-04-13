@@ -6,6 +6,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
+import project.backend.hotel_booking.core.auth.model.dto.ChangePassword;
 import project.backend.hotel_booking.core.auth.model.dto.LoginDTO;
 import project.backend.hotel_booking.core.auth.model.dto.RegisterPartnerDTO;
 import project.backend.hotel_booking.core.auth.model.dto.RegisterUserDTO;
@@ -52,5 +53,10 @@ public class AuthenticationController {
         authHeader=authHeader.substring(7);
         authenticationService.logout(authHeader);
         return ResponseUtil.ok("Logout success");
+    }
+
+    @PostMapping("/change-password")
+    public SuccessResponse<String> changPassword(@RequestBody ChangePassword dto){
+        return ResponseUtil.ok(authenticationService.changePassword(dto));
     }
 }

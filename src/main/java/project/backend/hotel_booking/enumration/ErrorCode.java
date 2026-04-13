@@ -24,6 +24,7 @@ public enum ErrorCode {
     PASSWORD_NOT_EQUAL("401","Password not equal"),
     PARTNER_NOT_ALREADY_EXIST("409","Partner not already exist"),
     USER_ALREADY_HAVE_RATING("409","User already have rating to this hotel"),
+    PASSWORD_NOT_SAME("409","Password and reNewpPassword not same"),
 
             ;
 

@@ -159,6 +159,7 @@ public class OrderRoomServiceImplement implements OrderRoomService {
     @Override
     public OrderRoomUserVO convertToOrderRoomUserVO(OrderRoom orderRoom) {
         OrderRoomUserVO orderRoomUserVO = new OrderRoomUserVO();
+        orderRoomUserVO.setId(orderRoom.getId());
         orderRoomUserVO.setRoomId(orderRoom.getRoomId());
         orderRoomUserVO.setPrice(orderRoom.getPrice());
         orderRoomUserVO.setStartDate(orderRoom.getStartDate());

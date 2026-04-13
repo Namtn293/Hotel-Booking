@@ -54,7 +54,7 @@ public class RoomServiceImplement implements RoomService {
                 .capacity(roomCreateDTO.getCapacity())
                 .price(roomCreateDTO.getPrice())
                 .qualityEnum(roomCreateDTO.getQualityEnum())
-                .activeStatus(ActiveStatus.PENDING)
+                .activeStatus(ActiveStatus.ACTIVE)
                 .hotelId(hotelId)
                 .build();
         if(image!=null && !image.isEmpty()){
@@ -68,6 +68,7 @@ public class RoomServiceImplement implements RoomService {
 
     @Override
     public RoomVO getRoomById(Long roomId) {
+        System.out.println("ok");
         return roomRepository.getRoomByRoomId(roomId)
                 .orElseThrow(()->new BusinessException(ErrorCode.ROOM_NOT_EXIST));
     }
@@ -181,12 +182,14 @@ public class RoomServiceImplement implements RoomService {
     @Override
     public RoomVO convertToRoomVO(Room room) {
         RoomVO roomVO = new RoomVO();
+        roomVO.setId(room.getId());
         roomVO.setRoomName(room.getRoomName());
         roomVO.setPrice(room.getPrice());
         roomVO.setCapacity(room.getCapacity());
         roomVO.setActiveStatus(room.getActiveStatus());
         roomVO.setQualityEnum(room.getQualityEnum());
         roomVO.setHotelName(hotelsRepository.getHotelNameById(room.getHotelId()));
+        roomVO.setHotelId(room.getHotelId());
         return roomVO;
     }
 

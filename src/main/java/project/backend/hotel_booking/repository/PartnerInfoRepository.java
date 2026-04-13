@@ -29,4 +29,9 @@ public interface PartnerInfoRepository extends JpaRepository<PartnerInfo,Long> {
             "and month(c.orderDate) = :month " +
             "group by a.id,a.partnerName,a.email,a.phonNumber,a.partnerStatus")
     List<PartnerInfoManageVO> getPartnerInfoAdmin(@Param("month") Long month);
+
+    @Query(value = "select a.id " +
+            "from PartnerInfo a " +
+            "join User b on a.userId=b.id and b.userName=:user_name ")
+    Long getPartnerInfo(@Param("user_name")String userName);
 }

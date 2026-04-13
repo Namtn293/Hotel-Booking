@@ -13,8 +13,6 @@ import java.time.LocalDate;
 @NoArgsConstructor
 @AllArgsConstructor
 public class OrderRoomDTO {
-    private Long hotelId;
-
     private Long roomId;
 
     private LocalDate startDate;

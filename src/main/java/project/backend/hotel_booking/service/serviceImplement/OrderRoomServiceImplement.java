@@ -52,10 +52,10 @@ public class OrderRoomServiceImplement implements OrderRoomService {
     public Long createOrderRoom(OrderRoomDTO orderRoomDTO) {
         OrderRoom orderRoom = new OrderRoom();
         orderRoom.setUserName(ThreadContext.getUserDetail().getUsername());
-        orderRoom.setHotelId(orderRoomDTO.getHotelId());
         orderRoom.setRoomId(orderRoomDTO.getRoomId());
         Room room = roomRepository.findById(orderRoom.getRoomId())
                 .orElseThrow(()->new BusinessException(ErrorCode.ROOM_NOT_EXIST));
+        orderRoom.setHotelId(room.getHotelId());
         orderRoom.setCapacity(room.getCapacity());
         orderRoom.setQualityEnum(room.getQualityEnum());
         orderRoom.setPrice(room.getPrice());

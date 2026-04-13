@@ -21,6 +21,7 @@ import project.backend.hotel_booking.service.NotificationService;
 import project.backend.hotel_booking.service.OrderRoomService;
 
 import java.time.LocalDate;
+import java.time.temporal.ChronoUnit;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Map;
@@ -77,6 +78,7 @@ public class OrderRoomServiceImplement implements OrderRoomService {
         OrderRoom orderRoom = orderRoomRepository.findById(orderId)
                 .orElseThrow(()->new BusinessException(ErrorCode.ORDER_NOT_EXIST));
         orderRoom.setPaymentStatus(PaymentStatus.PAID);
+        System.out.println("pay ok");
         notificationService.createNotification("Thanh toán thành công đơn hàng "+String.format("DH%3d",orderId));
         orderRoomRepository.save(orderRoom);
     }
@@ -86,6 +88,27 @@ public class OrderRoomServiceImplement implements OrderRoomService {
     public void cancelOrderRoom(Long orderId) {
         OrderRoom orderRoom = orderRoomRepository.findById(orderId)
                 .orElseThrow(()->new BusinessException(ErrorCode.ORDER_NOT_EXIST));
+        if(PaymentStatus.DEPOSITED.equals(orderRoom.getPaymentStatus())){
+            Long distance = Math.abs(ChronoUnit.DAYS.between(LocalDate.now(),orderRoom.getOrderDate()));
+            if(distance>3 && distance<=7){
+                orderRoom.setReturnPrice(orderRoom.getPrice()*0.2);
+            }else if(distance<=3){
+                orderRoom.setReturnPrice(orderRoom.getPrice()*0.3);
+            }else{
+                orderRoom.setReturnPrice(0);
+            }
+            System.out.println(distance);
+        }else if(PaymentStatus.PAID.equals(orderRoom.getPaymentStatus())) {
+            Long distance = Math.abs(ChronoUnit.DAYS.between(LocalDate.now(), orderRoom.getOrderDate()));
+            if (distance > 3 && distance <= 7) {
+                orderRoom.setReturnPrice(orderRoom.getPrice() * 0.9);
+            } else if (distance <= 3) {
+                orderRoom.setReturnPrice(orderRoom.getPrice());
+            } else {
+                orderRoom.setReturnPrice(orderRoom.getPrice() * 0.7);
+            }
+            System.out.println(distance);
+        }
         orderRoom.setPaymentStatus(PaymentStatus.CANCELLED);
         notificationService.createNotification("Hủy thành công đơn hàng "+String.format("DH%3d",orderId));
         orderRoomRepository.save(orderRoom);

@@ -75,13 +75,13 @@ public class PartnerInfoServiceImplement implements PartnerInfoService {
             partnerInfo.setPartnerName(partnerInfoUpdateDTO.getPartnerName());
         }
         if (partnerInfoUpdateDTO.getEmail()!=null){
-            partnerInfo.setPartnerName(partnerInfoUpdateDTO.getEmail());
+            partnerInfo.setEmail(partnerInfoUpdateDTO.getEmail());
         }
         if (partnerInfoUpdateDTO.getAddress()!=null){
-            partnerInfo.setPartnerName(partnerInfoUpdateDTO.getAddress());
+            partnerInfo.setAddress(partnerInfoUpdateDTO.getAddress());
         }
         if (partnerInfoUpdateDTO.getPhoneNumber()!=null){
-            partnerInfo.setPartnerName(partnerInfoUpdateDTO.getPhoneNumber());
+            partnerInfo.setPhonNumber(partnerInfoUpdateDTO.getPhoneNumber());
         }
         partnerInfoRepository.save(partnerInfo);
         return "Update Success";

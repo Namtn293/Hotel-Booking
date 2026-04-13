@@ -33,6 +33,10 @@ public class UserInfo extends EntityBase {
 
     private LocalDate createdDate;
 
+    private String accountNumber;
+
+    private LocalDate birthDay;
+
     @PrePersist
     public void prePersist(){
         this.createdDate=LocalDate.now();

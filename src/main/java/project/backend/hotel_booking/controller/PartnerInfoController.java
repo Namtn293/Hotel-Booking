@@ -4,6 +4,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import project.backend.hotel_booking.core.util.ResponseUtil;
 import project.backend.hotel_booking.core.util.SuccessResponse;
+import project.backend.hotel_booking.model.dto.PartnerInfoUpdateDTO;
 import project.backend.hotel_booking.model.vo.PartnerInfoManageVO;
 import project.backend.hotel_booking.model.vo.PartnerInfoVO;
 import project.backend.hotel_booking.service.PartnerInfoService;
@@ -42,5 +43,10 @@ public class PartnerInfoController {
         return ResponseUtil.ok("Get PartnerInfo success",partnerInfoService.gerAllPartnerInfo());
     }
 
+
+    @PutMapping("/update/partner-info")
+    public SuccessResponse<String> updatePartnerInfo(@RequestBody PartnerInfoUpdateDTO partnerInfoUpdateDTO){
+        return ResponseUtil.ok(partnerInfoService.updatePartnerInfo(partnerInfoUpdateDTO));
+    }
 
 }

@@ -34,4 +34,6 @@ public interface PartnerInfoRepository extends JpaRepository<PartnerInfo,Long> {
             "from PartnerInfo a " +
             "join User b on a.userId=b.id and b.userName=:user_name ")
     Long getPartnerInfo(@Param("user_name")String userName);
+
+    Optional<PartnerInfo> getPartnerInfoByUserId(Long userId);
 }

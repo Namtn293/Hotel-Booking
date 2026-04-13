@@ -6,6 +6,7 @@ import project.backend.hotel_booking.core.util.BusinessException;
 import project.backend.hotel_booking.entity.PartnerInfo;
 import project.backend.hotel_booking.enumration.ErrorCode;
 import project.backend.hotel_booking.enumration.PartnerStatus;
+import project.backend.hotel_booking.model.dto.PartnerInfoUpdateDTO;
 import project.backend.hotel_booking.model.vo.PartnerInfoManageVO;
 import project.backend.hotel_booking.model.vo.PartnerInfoVO;
 import project.backend.hotel_booking.repository.PartnerInfoRepository;
@@ -61,6 +62,25 @@ public class PartnerInfoServiceImplement implements PartnerInfoService {
         return partnerInfoRepository.getPartnerInfoAdmin(month);
     }
 
+    @Override
+    public String updatePartnerInfo(PartnerInfoUpdateDTO partnerInfoUpdateDTO) {
+        PartnerInfo partnerInfo=partnerInfoRepository.getPartnerInfoByUserId(partnerInfoUpdateDTO.getUserId()).orElseThrow(()->new BusinessException(ErrorCode.USER_NOT_ALREADY_EXIST));
+        if (partnerInfoUpdateDTO.getPartnerName()!=null){
+            partnerInfo.setPartnerName(partnerInfoUpdateDTO.getPartnerName());
+        }
+        if (partnerInfoUpdateDTO.getEmail()!=null){
+            partnerInfo.setPartnerName(partnerInfoUpdateDTO.getEmail());
+        }
+        if (partnerInfoUpdateDTO.getAddress()!=null){
+            partnerInfo.setPartnerName(partnerInfoUpdateDTO.getAddress());
+        }
+        if (partnerInfoUpdateDTO.getPhoneNumber()!=null){
+            partnerInfo.setPartnerName(partnerInfoUpdateDTO.getPhoneNumber());
+        }
+        partnerInfoRepository.save(partnerInfo);
+        return "Update Success";
+    }
+
 
     public List<PartnerInfoVO> convertToPartnerVO(List<PartnerInfo> list){
         List<PartnerInfoVO> listVo=new ArrayList<>();
@@ -76,5 +96,7 @@ public class PartnerInfoServiceImplement implements PartnerInfoService {
         });
         return listVo;
     }
+
+
 
 }

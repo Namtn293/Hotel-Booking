@@ -79,9 +79,10 @@ public interface RoomRepository extends JpaRepository<Room,Long> {
             @Param("paymentStatus")PaymentStatus paymentStatus
     );
 
-
     @Query(value = "select a.roomName " +
             "from MAIN_ROOM a " +
             "where a.id=:id")
     String getRoomNameById(@Param("id") Long id);
+
+
 }

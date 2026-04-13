@@ -205,9 +205,11 @@ public class RoomServiceImplement implements RoomService {
         Image image = imageRepository.findById(room.getImageId())
                 .orElseThrow(()->new BusinessException(ErrorCode.IMAGE_NOT_EXIST));
         roomPVO.setUrl(image.getUrl());
-        roomPVO.setQuality(room.getQualityEnum());
+        roomPVO.setQualityEnum(room.getQualityEnum());
         roomPVO.setPrice(room.getPrice());
         roomPVO.setDescription(room.getDescription());
+        roomPVO.setCapacity(roomPVO.getCapacity());
+        roomPVO.setActiveStatus(room.getActiveStatus());
         return roomPVO;
     }
 }

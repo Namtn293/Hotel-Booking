@@ -74,18 +74,14 @@ public interface RoomRepository extends JpaRepository<Room,Long> {
     List<Room> findAvailableRooms(
             @Param("hotelIds") List<Long> hotelIds,
             @Param("checkIn") LocalDate checkIn,
-<<<<<<< HEAD
-            @Param("checkOut") LocalDate checkOut
+            @Param("checkOut") LocalDate checkOut,
+            @Param("status") ActiveStatus status,
+            @Param("paymentStatus")PaymentStatus paymentStatus
     );
+
 
     @Query(value = "select a.roomName " +
             "from MAIN_ROOM a " +
             "where a.id=:id")
     String getRoomNameById(@Param("id") Long id);
-=======
-            @Param("checkOut") LocalDate checkOut,
-            @Param("status") ActiveStatus status,
-            @Param("paymentStatus")PaymentStatus paymentStatus
-            );
->>>>>>> b628663 (fix)
 }

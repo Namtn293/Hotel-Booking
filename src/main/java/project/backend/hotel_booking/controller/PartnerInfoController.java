@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.*;
 import project.backend.hotel_booking.core.util.ResponseUtil;
 import project.backend.hotel_booking.core.util.SuccessResponse;
 import project.backend.hotel_booking.model.dto.PartnerInfoUpdateDTO;
+import project.backend.hotel_booking.model.vo.PartnerInfoGetVO;
 import project.backend.hotel_booking.model.vo.PartnerInfoManageVO;
 import project.backend.hotel_booking.model.vo.PartnerInfoVO;
 import project.backend.hotel_booking.service.PartnerInfoService;
@@ -18,6 +19,11 @@ public class PartnerInfoController {
 
     public PartnerInfoController(PartnerInfoService partnerInfoService) {
         this.partnerInfoService = partnerInfoService;
+    }
+
+    @GetMapping("/get/partner-info")
+    public SuccessResponse<PartnerInfoGetVO> getPartnerInfo(){
+        return ResponseUtil.ok("Get partner info success",partnerInfoService.getPartnerInfo());
     }
 
     @GetMapping("/partner-pending")

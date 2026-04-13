@@ -2,11 +2,15 @@ package project.backend.hotel_booking.service.serviceImplement;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
+import project.backend.hotel_booking.core.auth.entity.User;
+import project.backend.hotel_booking.core.auth.repository.UserRepository;
+import project.backend.hotel_booking.core.configuration.ThreadContext;
 import project.backend.hotel_booking.core.util.BusinessException;
 import project.backend.hotel_booking.entity.PartnerInfo;
 import project.backend.hotel_booking.enumration.ErrorCode;
 import project.backend.hotel_booking.enumration.PartnerStatus;
 import project.backend.hotel_booking.model.dto.PartnerInfoUpdateDTO;
+import project.backend.hotel_booking.model.vo.PartnerInfoGetVO;
 import project.backend.hotel_booking.model.vo.PartnerInfoManageVO;
 import project.backend.hotel_booking.model.vo.PartnerInfoVO;
 import project.backend.hotel_booking.repository.PartnerInfoRepository;
@@ -21,11 +25,13 @@ import java.util.List;
 public class PartnerInfoServiceImplement implements PartnerInfoService {
     private final PartnerInfoRepository partnerInfoRepository;
     private final NotificationService notificationService;
+    private final UserRepository userRepository;
 
     @Autowired
-    public PartnerInfoServiceImplement(NotificationService notificationService,PartnerInfoRepository partnerInfoRepository) {
+    public PartnerInfoServiceImplement(UserRepository userRepository,NotificationService notificationService,PartnerInfoRepository partnerInfoRepository) {
         this.partnerInfoRepository = partnerInfoRepository;
         this.notificationService = notificationService;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -79,6 +85,18 @@ public class PartnerInfoServiceImplement implements PartnerInfoService {
         }
         partnerInfoRepository.save(partnerInfo);
         return "Update Success";
+    }
+
+    @Override
+    public PartnerInfoGetVO getPartnerInfo() {
+        User user=userRepository.findByUserName(ThreadContext.getUserDetail().getUsername()).orElseThrow(()->new BusinessException(ErrorCode.PARTNER_NOT_ALREADY_EXIST));
+        PartnerInfo partnerInfo= partnerInfoRepository.getPartnerInfoByUserId(user.getId()).orElseThrow(()->new BusinessException(ErrorCode.PARTNER_NOT_ALREADY_EXIST));
+        return PartnerInfoGetVO.builder()
+                .address(partnerInfo.getAddress())
+                .phoneNumber(partnerInfo.getPhonNumber())
+                .email(partnerInfo.getEmail())
+                .partnerName(partnerInfo.getPartnerName())
+                .build();
     }
 
 

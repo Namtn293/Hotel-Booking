@@ -6,6 +6,7 @@ import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 import project.backend.hotel_booking.core.auth.entity.Token;
 import project.backend.hotel_booking.core.auth.entity.User;
+import project.backend.hotel_booking.core.auth.model.dto.ChangePassword;
 import project.backend.hotel_booking.core.auth.model.dto.LoginDTO;
 import project.backend.hotel_booking.core.auth.model.dto.RegisterPartnerDTO;
 import project.backend.hotel_booking.core.auth.model.dto.RegisterUserDTO;
@@ -134,5 +135,19 @@ public class AuthenticationService {
         jwt.setExpired(true);
         jwt.setRevoked(true);
         tokenRepository.save(jwt);
+    }
+
+    public String changePassword(ChangePassword changePassword){
+        User user=userRepository.findById(changePassword.getUserId())
+                .orElseThrow(()->new BusinessException(ErrorCode.USER_NOT_ALREADY_EXIST));
+        if (!passwordEncoder.matches(changePassword.getPassword(),user.getPassword())){
+            throw new BusinessException(ErrorCode.PASSWORD_NOT_CORRECT);
+        }
+        if (!changePassword.getNewPassword().equals(changePassword.getReNewPassword())){
+            throw new BusinessException(ErrorCode.PASSWORD_NOT_SAME);
+        }
+        user.setPassword(passwordEncoder.encode(changePassword.getReNewPassword()));
+        userRepository.save(user);
+        return "Change password success";
     }
 }

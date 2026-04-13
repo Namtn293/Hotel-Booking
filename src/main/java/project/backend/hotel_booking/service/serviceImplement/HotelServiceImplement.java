@@ -138,6 +138,7 @@ public class HotelServiceImplement implements HotelService {
         }
         if(hotel.getImageId()!=null) imageService.deleteImage(hotel.getImageId());
         hotelsRepository.delete(hotel);
+        notificationService.createNotification("Xóa thành công phòng "+hotelId);
     }
 
     @Transactional
@@ -169,7 +170,7 @@ public class HotelServiceImplement implements HotelService {
                 .imageId(newImage.getId())
                 .build();
         hotelsRepository.save(hotel);
-        notificationService.createNotification("Cập nhật thành công khách sạn "+String.format("KS%02d",hotel.getId()));
+        notificationService.createNotification("Đăng kí thành công khách sạn "+String.format("KS%02d",hotel.getId()));
         return convertToHotelInfoVO(hotel);
     }
 

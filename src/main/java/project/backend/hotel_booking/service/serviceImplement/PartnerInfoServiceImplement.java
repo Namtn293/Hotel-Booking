@@ -9,6 +9,7 @@ import project.backend.hotel_booking.enumration.PartnerStatus;
 import project.backend.hotel_booking.model.vo.PartnerInfoManageVO;
 import project.backend.hotel_booking.model.vo.PartnerInfoVO;
 import project.backend.hotel_booking.repository.PartnerInfoRepository;
+import project.backend.hotel_booking.service.NotificationService;
 import project.backend.hotel_booking.service.PartnerInfoService;
 
 import java.time.LocalDate;
@@ -18,10 +19,12 @@ import java.util.List;
 @Service
 public class PartnerInfoServiceImplement implements PartnerInfoService {
     private final PartnerInfoRepository partnerInfoRepository;
+    private final NotificationService notificationService;
 
     @Autowired
-    public PartnerInfoServiceImplement(PartnerInfoRepository partnerInfoRepository) {
+    public PartnerInfoServiceImplement(NotificationService notificationService,PartnerInfoRepository partnerInfoRepository) {
         this.partnerInfoRepository = partnerInfoRepository;
+        this.notificationService = notificationService;
     }
 
     @Override
@@ -43,7 +46,9 @@ public class PartnerInfoServiceImplement implements PartnerInfoService {
         PartnerInfo partnerInfo=partnerInfoRepository.findById(partnerId).orElseThrow(()-> new BusinessException(ErrorCode.PARTNER_NOT_ALREADY_EXIST));
         if(partnerInfo.getPartnerStatus().equals(PartnerStatus.BANDING)){
             partnerInfo.setPartnerStatus(PartnerStatus.ACTIVE);
+            notificationService.createNotification("Bỏ cấm thành công đối tác "+partnerId);
         } else {
+            notificationService.createNotification("Cấm thành công đối tác "+partnerId);
             partnerInfo.setPartnerStatus(PartnerStatus.BANDING);
         }
         partnerInfoRepository.save(partnerInfo);

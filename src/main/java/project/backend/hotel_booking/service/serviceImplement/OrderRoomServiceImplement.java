@@ -63,6 +63,7 @@ public class OrderRoomServiceImplement implements OrderRoomService {
         orderRoom.setEndDate(orderRoomDTO.getEndDate());
         orderRoom.prePersist();
         orderRoomRepository.save(orderRoom);
+        notificationService.createNotification("Đặt phòng mới thành công ");
         return orderRoom.getId();
     }
 

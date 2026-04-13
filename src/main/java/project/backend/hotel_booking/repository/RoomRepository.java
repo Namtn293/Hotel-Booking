@@ -20,17 +20,18 @@ public interface RoomRepository extends JpaRepository<Room,Long> {
 
     @Query("""
     SELECT new project.backend.hotel_booking.model.vo.RoomVO(
+        r.id,
         r.roomName,
         r.capacity,
         r.activeStatus,
         r.price,
         r.qualityEnum,
+        r.hotelId,
         h.hotelName,
         h.address,
         COUNT(rt.id),
         AVG(rt.rating),
-        i.url
-    )
+        i.url)    
     FROM MAIN_ROOM r
     LEFT JOIN Hotel h ON h.id = r.hotelId
     LEFT JOIN MAIN_IMAGE i ON i.id = r.imageId
@@ -43,8 +44,10 @@ public interface RoomRepository extends JpaRepository<Room,Long> {
         r.price,
         r.qualityEnum,
         h.hotelName,
+        r.hotelId,
         h.address,
-        i.url
+        i.url,
+        r.id
 """)
     Optional<RoomVO> getRoomByRoomId(@Param("roomId") Long roomId);
 

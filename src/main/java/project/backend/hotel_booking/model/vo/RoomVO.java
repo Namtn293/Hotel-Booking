@@ -12,11 +12,13 @@ import project.backend.hotel_booking.enumration.QualityEnum;
 @NoArgsConstructor
 @AllArgsConstructor
 public class RoomVO {
+    private Long id;
     private String roomName;
     private Long capacity;
     private ActiveStatus activeStatus;
     private double price;
     private QualityEnum qualityEnum;
+    private Long hotelId;
     private String hotelName;
     private String address;
     private Long count;

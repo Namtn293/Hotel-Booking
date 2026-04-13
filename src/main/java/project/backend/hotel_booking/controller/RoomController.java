@@ -14,6 +14,8 @@ import project.backend.hotel_booking.service.RoomService;
 
 import java.io.IOException;
 import java.util.List;
+import java.time.LocalDate;
+import java.time.LocalDate;
 
 @RestController
 @RequestMapping("api/room")
@@ -73,7 +75,18 @@ public class RoomController {
     }
 
     @GetMapping("/find")
-    SuccessResponse<List<RoomVO>> findRoomByRequire(@RequestBody RoomFindDTO roomFindDTO){
+    SuccessResponse<List<RoomVO>> findRoomByRequire(
+            @RequestParam String content,
+            @RequestParam LocalDate checkIn,
+            @RequestParam LocalDate checkOut,
+            @RequestParam Long capacity
+    ){
+        RoomFindDTO roomFindDTO = new RoomFindDTO();
+        roomFindDTO.setContent(content);
+        roomFindDTO.setCheckIn(checkIn);
+        roomFindDTO.setCheckOut(checkOut);
+        roomFindDTO.setCapacity(capacity);
+
         return ResponseUtil.ok(
                 "Get all room by require success",
                 roomService.findRoomByRequire(roomFindDTO)

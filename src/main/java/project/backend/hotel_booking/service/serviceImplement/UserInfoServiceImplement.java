@@ -1,13 +1,10 @@
 package project.backend.hotel_booking.service.serviceImplement;
 
 import org.springframework.stereotype.Service;
-<<<<<<< HEAD
 import project.backend.hotel_booking.core.auth.entity.User;
 import project.backend.hotel_booking.core.auth.repository.UserRepository;
 import project.backend.hotel_booking.core.configuration.ThreadContext;
-=======
 import project.backend.hotel_booking.core.auth.repository.UserRepository;
->>>>>>> d7a13933b2eb491dcb8e7546dec824fced014322
 import project.backend.hotel_booking.core.util.BusinessException;
 import project.backend.hotel_booking.entity.UserInfo;
 import project.backend.hotel_booking.enumration.ErrorCode;
@@ -29,19 +26,12 @@ public class UserInfoServiceImplement implements UserInfoService {
     private final UserInfoRepository userInfoRepository;
     private final NotificationService notificationService;
     private final UserRepository userRepository;
-<<<<<<< HEAD
-    public UserInfoServiceImplement(UserInfoRepository userInfoRepository, NotificationService notificationService, UserRepository userRepository) {
-        this.userInfoRepository = userInfoRepository;
-        this.notificationService = notificationService;
-        this.userRepository = userRepository;
-=======
     private final OrderRoomRepository orderRoomRepository;
     public UserInfoServiceImplement(OrderRoomRepository orderRoomRepository,UserRepository userRepository,UserInfoRepository userInfoRepository,NotificationService notificationService) {
         this.userInfoRepository = userInfoRepository;
         this.notificationService = notificationService;
         this.userRepository = userRepository;
         this.orderRoomRepository = orderRoomRepository;
->>>>>>> d7a13933b2eb491dcb8e7546dec824fced014322
     }
 
     @Override
@@ -93,6 +83,18 @@ public class UserInfoServiceImplement implements UserInfoService {
         userInfo.setAccountNumber(userInfoUpdateDTO.getAccountNumber());
         userInfo.setPhoneNumber(userInfoUpdateDTO.getPhoneNumber());
         userInfo.setPhoneNumber(userInfoUpdateDTO.getPhoneNumber());
+        return UserInfoUpdateVO.builder()
+                .accountNumber(userInfo.getAccountNumber())
+                .birthDay(userInfo.getBirthDay())
+                .email(userInfo.getEmail())
+                .fullName(userInfo.getFullName())
+                .phoneNumber(userInfo.getPhoneNumber())
+                .build();
+    }
+
+    @Override
+    public UserInfoUpdateVO getUserInfo() {
+        UserInfo userInfo = userInfoRepository.findById(userInfoRepository.getUserInfoIdByUserName(ThreadContext.getUserDetail().getUsername())).orElseThrow(()->new BusinessException(ErrorCode.USER_NOT_FOUND));
         return UserInfoUpdateVO.builder()
                 .accountNumber(userInfo.getAccountNumber())
                 .birthDay(userInfo.getBirthDay())

@@ -14,4 +14,6 @@ public interface UserInfoService {
     Long accountCount();
 
     UserInfoUpdateVO updateInfo(UserInfoUpdateDTO userInfoUpdateDTO);
+
+    UserInfoUpdateVO getUserInfo();
 }

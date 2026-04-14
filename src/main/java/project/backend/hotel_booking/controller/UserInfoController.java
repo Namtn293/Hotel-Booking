@@ -42,4 +42,12 @@ public class UserInfoController {
                 userInfoService.updateInfo(userInfoUpdateDTO)
         );
     }
+
+    @GetMapping("/get")
+    public SuccessResponse<UserInfoUpdateVO> getInfo(){
+        return ResponseUtil.ok(
+                "update success",
+                userInfoService.getUserInfo()
+        );
+    }
 }

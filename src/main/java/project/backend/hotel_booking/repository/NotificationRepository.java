@@ -15,6 +15,6 @@ public interface NotificationRepository extends JpaRepository<Notification,Long>
     @Query(value = " select new project.backend.hotel_booking.model.vo.NotificationVO(a.content,a.createdTime)" +
             " from Notification a " +
             " where a.userId=:user_id " +
-            " order by a.createdTime asc ")
+            " order by a.createdTime desc ")
     List<NotificationVO> getAllNotifications(@Param("user_id") Long userId);
 }

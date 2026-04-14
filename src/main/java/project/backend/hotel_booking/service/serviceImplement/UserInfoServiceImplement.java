@@ -1,9 +1,13 @@
 package project.backend.hotel_booking.service.serviceImplement;
 
 import org.springframework.stereotype.Service;
+<<<<<<< HEAD
 import project.backend.hotel_booking.core.auth.entity.User;
 import project.backend.hotel_booking.core.auth.repository.UserRepository;
 import project.backend.hotel_booking.core.configuration.ThreadContext;
+=======
+import project.backend.hotel_booking.core.auth.repository.UserRepository;
+>>>>>>> d7a13933b2eb491dcb8e7546dec824fced014322
 import project.backend.hotel_booking.core.util.BusinessException;
 import project.backend.hotel_booking.entity.UserInfo;
 import project.backend.hotel_booking.enumration.ErrorCode;
@@ -12,6 +16,7 @@ import project.backend.hotel_booking.model.dto.UserInfoUpdateDTO;
 import project.backend.hotel_booking.model.vo.UserInfoUpdateVO;
 import project.backend.hotel_booking.model.vo.UserInfoVO;
 import project.backend.hotel_booking.repository.HotelsRepository;
+import project.backend.hotel_booking.repository.OrderRoomRepository;
 import project.backend.hotel_booking.repository.UserInfoRepository;
 import project.backend.hotel_booking.service.NotificationService;
 import project.backend.hotel_booking.service.UserInfoService;
@@ -24,10 +29,19 @@ public class UserInfoServiceImplement implements UserInfoService {
     private final UserInfoRepository userInfoRepository;
     private final NotificationService notificationService;
     private final UserRepository userRepository;
+<<<<<<< HEAD
     public UserInfoServiceImplement(UserInfoRepository userInfoRepository, NotificationService notificationService, UserRepository userRepository) {
         this.userInfoRepository = userInfoRepository;
         this.notificationService = notificationService;
         this.userRepository = userRepository;
+=======
+    private final OrderRoomRepository orderRoomRepository;
+    public UserInfoServiceImplement(OrderRoomRepository orderRoomRepository,UserRepository userRepository,UserInfoRepository userInfoRepository,NotificationService notificationService) {
+        this.userInfoRepository = userInfoRepository;
+        this.notificationService = notificationService;
+        this.userRepository = userRepository;
+        this.orderRoomRepository = orderRoomRepository;
+>>>>>>> d7a13933b2eb491dcb8e7546dec824fced014322
     }
 
     @Override
@@ -35,12 +49,12 @@ public class UserInfoServiceImplement implements UserInfoService {
         List<UserInfo> list=userInfoRepository.findAll();
         List<UserInfoVO> listVo=new ArrayList<>();
         list.forEach(c->{
-            Long total=0L;
+            String userName=userRepository.findUserNameById(c.getUserId());
             UserInfoVO userInfoVO=UserInfoVO.builder()
                     .statusEnum(c.getUserStatusEnum())
                     .phoneNumber(c.getPhoneNumber())
                     .email(c.getEmail())
-                    .reserveTotal(total)
+                    .reserveTotal(orderRoomRepository.countTotalReserve(userName))
                     .userId("US"+String.format("%03d",c.getUserId()))
                     .fullName(c.getFullName())
                     .build();

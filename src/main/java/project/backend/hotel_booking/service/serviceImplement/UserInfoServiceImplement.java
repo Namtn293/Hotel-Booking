@@ -82,7 +82,7 @@ public class UserInfoServiceImplement implements UserInfoService {
         userInfo.setFullName(userInfoUpdateDTO.getFullName());
         userInfo.setAccountNumber(userInfoUpdateDTO.getAccountNumber());
         userInfo.setPhoneNumber(userInfoUpdateDTO.getPhoneNumber());
-        userInfo.setPhoneNumber(userInfoUpdateDTO.getPhoneNumber());
+        userInfo.setBirthDay(userInfoUpdateDTO.getBirthDay());
         return UserInfoUpdateVO.builder()
                 .accountNumber(userInfo.getAccountNumber())
                 .birthDay(userInfo.getBirthDay())

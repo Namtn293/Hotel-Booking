@@ -102,7 +102,7 @@ public class HotelServiceImplement implements HotelService {
             Image newImage = imageService.uploadImage(image);
             hotel.setImageId(newImage.getId());
         }
-        notificationService.createNotification("Cập nhật thành công khách sạn "+String.format("KS%02d",hotelId));
+        notificationService.createNotification("Cập nhật thành công khách sạn "+hotel.getHotelName());
         hotelsRepository.save(hotel);
     }
 
@@ -120,6 +120,7 @@ public class HotelServiceImplement implements HotelService {
                 room.setActiveStatus(ActiveStatus.ACTIVE);
             }
         }
+        notificationService.createNotification("Cập nhật thành công khách sạn "+hotel.getHotelName());
     }
 
     @Override
@@ -127,6 +128,7 @@ public class HotelServiceImplement implements HotelService {
         Hotel hotel = hotelsRepository.findById(hotelId)
                 .orElseThrow(()->new BusinessException(ErrorCode.HOTEL_NOT_EXIST));
         hotel.setActiveStatus(activeStatus);
+        notificationService.createNotification("Thay đổi thành công trạng thái khách sạn "+ hotel.getHotelName());
         hotelsRepository.save(hotel);
     }
 
@@ -146,7 +148,7 @@ public class HotelServiceImplement implements HotelService {
         }
         if(hotel.getImageId()!=null) imageService.deleteImage(hotel.getImageId());
         hotelsRepository.delete(hotel);
-        notificationService.createNotification("Xóa thành công phòng "+hotelId);
+        notificationService.createNotification("Xóa thành công khách sạn "+hotelId);
     }
 
     @Transactional
@@ -178,7 +180,7 @@ public class HotelServiceImplement implements HotelService {
                 .imageId(newImage.getId())
                 .build();
         hotelsRepository.save(hotel);
-        notificationService.createNotification("Đăng kí thành công khách sạn "+String.format("KS%02d",hotel.getId()));
+        notificationService.createNotification("Đăng kí thành công khách sạn "+hotel.getHotelName());
         return convertToHotelInfoVO(hotel);
     }
 

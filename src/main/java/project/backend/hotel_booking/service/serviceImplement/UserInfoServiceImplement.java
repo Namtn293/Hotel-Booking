@@ -1,12 +1,14 @@
 package project.backend.hotel_booking.service.serviceImplement;
 
 import org.springframework.stereotype.Service;
+import project.backend.hotel_booking.core.auth.repository.UserRepository;
 import project.backend.hotel_booking.core.util.BusinessException;
 import project.backend.hotel_booking.entity.UserInfo;
 import project.backend.hotel_booking.enumration.ErrorCode;
 import project.backend.hotel_booking.enumration.UserStatusEnum;
 import project.backend.hotel_booking.model.vo.UserInfoVO;
 import project.backend.hotel_booking.repository.HotelsRepository;
+import project.backend.hotel_booking.repository.OrderRoomRepository;
 import project.backend.hotel_booking.repository.UserInfoRepository;
 import project.backend.hotel_booking.service.NotificationService;
 import project.backend.hotel_booking.service.UserInfoService;
@@ -18,9 +20,13 @@ import java.util.*;
 public class UserInfoServiceImplement implements UserInfoService {
     private final UserInfoRepository userInfoRepository;
     private final NotificationService notificationService;
-    public UserInfoServiceImplement(UserInfoRepository userInfoRepository,NotificationService notificationService) {
+    private final UserRepository userRepository;
+    private final OrderRoomRepository orderRoomRepository;
+    public UserInfoServiceImplement(OrderRoomRepository orderRoomRepository,UserRepository userRepository,UserInfoRepository userInfoRepository,NotificationService notificationService) {
         this.userInfoRepository = userInfoRepository;
         this.notificationService = notificationService;
+        this.userRepository = userRepository;
+        this.orderRoomRepository = orderRoomRepository;
     }
 
     @Override
@@ -28,12 +34,12 @@ public class UserInfoServiceImplement implements UserInfoService {
         List<UserInfo> list=userInfoRepository.findAll();
         List<UserInfoVO> listVo=new ArrayList<>();
         list.forEach(c->{
-            Long total=0L;
+            String userName=userRepository.findUserNameById(c.getUserId());
             UserInfoVO userInfoVO=UserInfoVO.builder()
                     .statusEnum(c.getUserStatusEnum())
                     .phoneNumber(c.getPhoneNumber())
                     .email(c.getEmail())
-                    .reserveTotal(total)
+                    .reserveTotal(orderRoomRepository.countTotalReserve(userName))
                     .userId("US"+String.format("%03d",c.getUserId()))
                     .fullName(c.getFullName())
                     .build();

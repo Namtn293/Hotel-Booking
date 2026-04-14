@@ -52,4 +52,9 @@ public interface OrderRoomRepository extends JpaRepository<OrderRoom,Long> {
             "group by a.orderDate " +
             "order by a.orderDate asc")
     List<OrderRoomDataVO> getRevenueTotal(@Param("start")LocalDate start,@Param("end")LocalDate end);
+
+    @Query(value = "select count(a)" +
+            "from MAIN_ROOM_ORDER a " +
+            "where a.userName=:user_name")
+    Long countTotalReserve(@Param("user_name")String userName);
 }

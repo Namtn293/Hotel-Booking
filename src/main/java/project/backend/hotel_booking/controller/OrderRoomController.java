@@ -35,7 +35,7 @@ public class OrderRoomController {
     SuccessResponse<PaymentStatus> depositOrderRoom(@PathVariable Long orderId){
         return ResponseUtil.ok(
                 "deposit room success",
-                orderRoomService.depositOrderRoom(orderId);
+                orderRoomService.depositOrderRoom(orderId)
         );
     }
 

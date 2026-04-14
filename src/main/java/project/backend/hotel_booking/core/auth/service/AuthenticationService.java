@@ -73,12 +73,16 @@ public class AuthenticationService {
 
     @Transactional
     public void registerPartner(RegisterPartnerDTO registerDTO) throws BusinessException {
-        if (!registerDTO.getPassword().equals(registerDTO.getRePassword())){
+        if (!registerDTO.getPassword().equals(registerDTO.getRePassword())) {
             throw new BusinessException(ErrorCode.PASSWORD_NOT_EQUAL);
         }
-        if (userRepository.existsByUserName(registerDTO.getUserName())){
+        if (userRepository.existsByUserName(registerDTO.getUserName())) {
             throw new BusinessException(ErrorCode.USER_ALREADY_EXIST);
         }
+        if (partnerInfoRepository.existsByEmail(registerDTO.getEmail())) {
+            throw new BusinessException(ErrorCode.EMAIL_ALREADY_EXIST);
+        }
+
         User user=new User();
         user.setUserName(registerDTO.getUserName());
         user.setRoleEnum(RoleEnum.PARTNER);

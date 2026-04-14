@@ -25,7 +25,7 @@ public interface PartnerInfoRepository extends JpaRepository<PartnerInfo,Long> {
     @Query(value = "select new project.backend.hotel_booking.model.vo.PartnerInfoManageVO(a.id,a.partnerName,a.email,a.phonNumber,a.partnerStatus,cast(coalesce(sum(c.price),0.0d)as double )) " +
             "from PartnerInfo a " +
             "left join Hotel b on a.id=b.partnerId " +
-            "left join MAIN_ROOM_ORDER c on c.hotelId=b.id " +
+            "left join MAIN_ROOM_ORDER c on c.hotelId=b.id and c.paymentStatus=2 " +
             "and month(c.orderDate) = :month " +
             "group by a.id,a.partnerName,a.email,a.phonNumber,a.partnerStatus")
     List<PartnerInfoManageVO> getPartnerInfoAdmin(@Param("month") Long month);
@@ -36,4 +36,6 @@ public interface PartnerInfoRepository extends JpaRepository<PartnerInfo,Long> {
     Long getPartnerInfo(@Param("user_name")String userName);
 
     Optional<PartnerInfo> getPartnerInfoByUserId(Long userId);
+
+    boolean existsByEmail(String email);
 }

@@ -171,8 +171,7 @@ public class RoomServiceImplement implements RoomService {
     @Override
     public List<RoomVO> findRoomByRequire(RoomFindDTO roomFindDTO) {
 
-        if (roomFindDTO.getCheckIn().isAfter(roomFindDTO.getCheckOut()) ||
-                roomFindDTO.getCheckIn().equals(roomFindDTO.getCheckOut()))
+        if (roomFindDTO.getCheckIn().isAfter(roomFindDTO.getCheckOut()))
         {throw new BusinessException(ErrorCode.INVALID_DATE);}
 
         List<Hotel> hotels = hotelsRepository.getHotelByContent(roomFindDTO.getContent());

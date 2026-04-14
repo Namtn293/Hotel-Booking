@@ -53,7 +53,8 @@ public class RatingServiceImplement implements RatingService {
         if (ratingRepository.existsByUserIdAndRoomId(user.getId(),ratingDTO.getRoomId())){
             throw new BusinessException(ErrorCode.USER_ALREADY_HAVE_RATING);
         }
-        Image image=imageService.uploadImage(file);
+        Image image=new Image();
+        if (!file.isEmpty()) image=imageService.uploadImage(file);
         Rating rating=Rating.builder()
                 .userId(user.getId())
                 .reason(ratingDTO.getReason())

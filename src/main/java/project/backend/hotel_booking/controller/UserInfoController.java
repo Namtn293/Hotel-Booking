@@ -3,6 +3,8 @@ package project.backend.hotel_booking.controller;
 import org.springframework.web.bind.annotation.*;
 import project.backend.hotel_booking.core.util.ResponseUtil;
 import project.backend.hotel_booking.core.util.SuccessResponse;
+import project.backend.hotel_booking.model.dto.UserInfoUpdateDTO;
+import project.backend.hotel_booking.model.vo.UserInfoUpdateVO;
 import project.backend.hotel_booking.model.vo.UserInfoVO;
 import project.backend.hotel_booking.service.UserInfoService;
 
@@ -31,5 +33,13 @@ public class UserInfoController {
     @GetMapping("/new-account-total")
     public SuccessResponse<Long> newAccountTotal(){
         return ResponseUtil.ok("Get success", userInfoService.accountCount());
+    }
+
+    @PutMapping("/update")
+    public SuccessResponse<UserInfoUpdateVO> updateInfo(@RequestBody UserInfoUpdateDTO userInfoUpdateDTO){
+        return ResponseUtil.ok(
+                "update success",
+                userInfoService.updateInfo(userInfoUpdateDTO)
+        );
     }
 }

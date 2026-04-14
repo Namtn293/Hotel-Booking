@@ -5,6 +5,7 @@ import lombok.Getter;
 @Getter
 public enum ErrorCode {
     NULL_FIELD("400","Fill all necessary field"),
+    ROOM_NAME_EXISTED("400","Room name existed"),
     INVALID_DATE("400","Check in must be before check out"),
     ROOM_NOT_EXIST("404","Room not exist"),
     IMAGE_NOT_EXIST("404","Image not exist"),

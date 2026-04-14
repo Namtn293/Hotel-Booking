@@ -25,7 +25,7 @@ public class RatingController {
     @PostMapping(value = "/create", consumes = "multipart/form-data")
     public SuccessResponse<String> createRating(
             @RequestParam("rating") String ratingJson,
-            @RequestParam("file") MultipartFile file) throws IOException {
+            @RequestParam(value = "file",required = false) MultipartFile file) throws IOException {
         ObjectMapper mapper = new ObjectMapper();
         RatingDTO ratingDTO = mapper.readValue(ratingJson, RatingDTO.class);
         ratingService.createRating(ratingDTO, file);

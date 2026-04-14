@@ -10,6 +10,7 @@ import project.backend.hotel_booking.core.util.BusinessException;
 import project.backend.hotel_booking.entity.*;
 import project.backend.hotel_booking.enumration.ActiveStatus;
 import project.backend.hotel_booking.enumration.ErrorCode;
+import project.backend.hotel_booking.enumration.HotelEnum;
 import project.backend.hotel_booking.enumration.PaymentStatus;
 import project.backend.hotel_booking.model.dto.RoomCreateDTO;
 import project.backend.hotel_booking.model.dto.RoomFindDTO;
@@ -22,6 +23,7 @@ import project.backend.hotel_booking.service.NotificationService;
 import project.backend.hotel_booking.service.RoomService;
 
 import java.io.IOException;
+import java.net.BindException;
 import java.util.ArrayList;
 import java.util.List;
 import java.util.Optional;
@@ -36,6 +38,7 @@ public class RoomServiceImplement implements RoomService {
     private final UserRepository userRepository;
     private final PartnerInfoRepository partnerInfoRepository;
     private final OrderRoomRepository orderRoomRepository;
+    private Room room;
 
     public RoomServiceImplement(NotificationService notificationService, RoomRepository roomRepository, HotelsRepository hotelsRepository, ImageService imageService, ImageRepository imageRepository, UserRepository userRepository, PartnerInfoRepository partnerInfoRepository, OrderRoomRepository orderRoomRepository) {
         this.roomRepository = roomRepository;
@@ -51,14 +54,24 @@ public class RoomServiceImplement implements RoomService {
     @Override
     public void createRoom(Long hotelId, RoomCreateDTO roomCreateDTO, MultipartFile image) throws IOException {
         Room room = Room.builder()
-                .roomName(roomCreateDTO.getRoomName())
                 .capacity(roomCreateDTO.getCapacity())
                 .price(roomCreateDTO.getPrice())
                 .qualityEnum(roomCreateDTO.getQualityEnum())
-                .activeStatus(ActiveStatus.PENDING)
                 .hotelId(hotelId)
                 .description(roomCreateDTO.getDescription())
                 .build();
+        for (Room room1 : roomRepository.findAll()) {
+            if(room1.getRoomName().trim().equals(roomCreateDTO.getRoomName())){
+                throw new BusinessException(ErrorCode.ROOM_NAME_EXISTED);
+            }
+        }
+
+        Hotel hotel = hotelsRepository.findById(room.getHotelId()).orElseThrow(()->new BusinessException(ErrorCode.HOTEL_NOT_EXIST));
+        if(hotel.getHotelEnum().equals(HotelEnum.PENDING)){
+            room.setActiveStatus(ActiveStatus.PENDING);
+        }else if(hotel.getHotelEnum().equals(HotelEnum.ACCEPT)){
+            room.setActiveStatus(ActiveStatus.ACTIVE);
+        }
         if(image!=null && !image.isEmpty()){
             Image newImage = imageService.uploadImage(image);
             room.setImageId(newImage.getId());

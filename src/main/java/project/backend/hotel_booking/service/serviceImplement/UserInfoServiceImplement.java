@@ -1,10 +1,15 @@
 package project.backend.hotel_booking.service.serviceImplement;
 
 import org.springframework.stereotype.Service;
+import project.backend.hotel_booking.core.auth.entity.User;
+import project.backend.hotel_booking.core.auth.repository.UserRepository;
+import project.backend.hotel_booking.core.configuration.ThreadContext;
 import project.backend.hotel_booking.core.util.BusinessException;
 import project.backend.hotel_booking.entity.UserInfo;
 import project.backend.hotel_booking.enumration.ErrorCode;
 import project.backend.hotel_booking.enumration.UserStatusEnum;
+import project.backend.hotel_booking.model.dto.UserInfoUpdateDTO;
+import project.backend.hotel_booking.model.vo.UserInfoUpdateVO;
 import project.backend.hotel_booking.model.vo.UserInfoVO;
 import project.backend.hotel_booking.repository.HotelsRepository;
 import project.backend.hotel_booking.repository.UserInfoRepository;
@@ -18,9 +23,11 @@ import java.util.*;
 public class UserInfoServiceImplement implements UserInfoService {
     private final UserInfoRepository userInfoRepository;
     private final NotificationService notificationService;
-    public UserInfoServiceImplement(UserInfoRepository userInfoRepository,NotificationService notificationService) {
+    private final UserRepository userRepository;
+    public UserInfoServiceImplement(UserInfoRepository userInfoRepository, NotificationService notificationService, UserRepository userRepository) {
         this.userInfoRepository = userInfoRepository;
         this.notificationService = notificationService;
+        this.userRepository = userRepository;
     }
 
     @Override
@@ -57,8 +64,27 @@ public class UserInfoServiceImplement implements UserInfoService {
         userInfoRepository.save(userInfo);
     }
 
+
+
     @Override
     public Long accountCount() {
         return userInfoRepository.countUserInfoByCreatedDate(LocalDate.now());
+    }
+
+    @Override
+    public UserInfoUpdateVO updateInfo(UserInfoUpdateDTO userInfoUpdateDTO) {
+        UserInfo userInfo = userInfoRepository.findById(userInfoRepository.getUserInfoIdByUserName(ThreadContext.getUserDetail().getUsername())).orElseThrow(()->new BusinessException(ErrorCode.USER_NOT_FOUND));
+        userInfo.setEmail(userInfoUpdateDTO.getEmail());
+        userInfo.setFullName(userInfoUpdateDTO.getFullName());
+        userInfo.setAccountNumber(userInfoUpdateDTO.getAccountNumber());
+        userInfo.setPhoneNumber(userInfoUpdateDTO.getPhoneNumber());
+        userInfo.setPhoneNumber(userInfoUpdateDTO.getPhoneNumber());
+        return UserInfoUpdateVO.builder()
+                .accountNumber(userInfo.getAccountNumber())
+                .birthDay(userInfo.getBirthDay())
+                .email(userInfo.getEmail())
+                .fullName(userInfo.getFullName())
+                .phoneNumber(userInfo.getPhoneNumber())
+                .build();
     }
 }

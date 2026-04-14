@@ -22,4 +22,6 @@ public interface UserInfoRepository extends JpaRepository<UserInfo,Long> {
             "join User b on a.userId=b.id " +
             "where b.userName=:user_name ")
     Long getUserInfoIdByUserName(@Param("user_name")String userName);
+
+    boolean existsByEmail(String email);
 }

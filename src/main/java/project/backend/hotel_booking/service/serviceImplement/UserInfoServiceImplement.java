@@ -77,6 +77,9 @@ public class UserInfoServiceImplement implements UserInfoService {
 
     @Override
     public UserInfoUpdateVO updateInfo(UserInfoUpdateDTO userInfoUpdateDTO) {
+        if (userInfoRepository.existsByEmail(userInfoUpdateDTO.getEmail())){
+            throw new BusinessException(ErrorCode.EMAIL_ALREADY_EXIST);
+        }
         UserInfo userInfo = userInfoRepository.findById(userInfoRepository.getUserInfoIdByUserName(ThreadContext.getUserDetail().getUsername())).orElseThrow(()->new BusinessException(ErrorCode.USER_NOT_FOUND));
         userInfo.setEmail(userInfoUpdateDTO.getEmail());
         userInfo.setFullName(userInfoUpdateDTO.getFullName());

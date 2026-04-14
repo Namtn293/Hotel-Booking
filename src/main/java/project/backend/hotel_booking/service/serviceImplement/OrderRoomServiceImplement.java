@@ -69,23 +69,25 @@ public class OrderRoomServiceImplement implements OrderRoomService {
     }
 
     @Override
-    public void depositOrderRoom(Long orderId) {
+    public PaymentStatus depositOrderRoom(Long orderId) {
         OrderRoom orderRoom = orderRoomRepository.findById(orderId)
                 .orElseThrow(()->new BusinessException(ErrorCode.ORDER_NOT_EXIST));
         orderRoom.setPaymentStatus(PaymentStatus.DEPOSITED);
         notificationService.createNotification("Đặt cọc thành công đơn hàng "+String.format("DH%3d",orderId));
         orderRoomRepository.save(orderRoom);
+        return orderRoom.getPaymentStatus();
     }
 
     @Transactional
     @Override
-    public void payOrderRoom(Long orderId) {
+    public PaymentStatus payOrderRoom(Long orderId) {
         OrderRoom orderRoom = orderRoomRepository.findById(orderId)
                 .orElseThrow(()->new BusinessException(ErrorCode.ORDER_NOT_EXIST));
         orderRoom.setPaymentStatus(PaymentStatus.PAID);
         System.out.println("pay ok");
         notificationService.createNotification("Thanh toán thành công đơn hàng "+String.format("DH%3d",orderId));
         orderRoomRepository.save(orderRoom);
+        return orderRoom.getPaymentStatus();
     }
 
     @Transactional

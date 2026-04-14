@@ -1,6 +1,7 @@
 package project.backend.hotel_booking.service;
 
 import project.backend.hotel_booking.entity.OrderRoom;
+import project.backend.hotel_booking.enumration.PaymentStatus;
 import project.backend.hotel_booking.model.dto.OrderRoomDTO;
 import project.backend.hotel_booking.model.vo.OrderRoomDataVO;
 import project.backend.hotel_booking.model.vo.OrderRoomPartnerVO;
@@ -11,8 +12,8 @@ import java.util.List;
 
 public interface OrderRoomService {
     Long createOrderRoom(OrderRoomDTO orderRoomDTO);
-    void depositOrderRoom(Long orderId);
-    void payOrderRoom(Long orderId);
+    PaymentStatus depositOrderRoom(Long orderId);
+    PaymentStatus payOrderRoom(Long orderId);
     void cancelOrderRoom(Long orderId);
     List<OrderRoomPartnerVO> getOrderByPartner();
     List<OrderRoomUserVO> getOrderByUserName();

@@ -4,6 +4,7 @@ import org.springframework.web.bind.annotation.*;
 import project.backend.hotel_booking.core.util.ResponseUtil;
 import project.backend.hotel_booking.core.util.SuccessResponse;
 import project.backend.hotel_booking.entity.OrderRoom;
+import project.backend.hotel_booking.enumration.PaymentStatus;
 import project.backend.hotel_booking.model.dto.OrderRoomDTO;
 import project.backend.hotel_booking.model.vo.OrderRoomPartnerVO;
 import project.backend.hotel_booking.model.vo.OrderRoomUserVO;
@@ -31,18 +32,19 @@ public class OrderRoomController {
     }
 
     @PutMapping("/deposit/{orderId}")
-    SuccessResponse<String> depositOrderRoom(@PathVariable Long orderId){
-        orderRoomService.depositOrderRoom(orderId);
+    SuccessResponse<PaymentStatus> depositOrderRoom(@PathVariable Long orderId){
         return ResponseUtil.ok(
-                "deposit room success"
+                "deposit room success",
+                orderRoomService.depositOrderRoom(orderId);
         );
     }
 
     @PutMapping("/pay/{orderId}")
-    SuccessResponse<String> payOrderRoom(@PathVariable Long orderId){
-        orderRoomService.payOrderRoom(orderId);
+    SuccessResponse<PaymentStatus> payOrderRoom(@PathVariable Long orderId){
+
         return ResponseUtil.ok(
-                "pay order success"
+                "pay order success",
+                orderRoomService.payOrderRoom(orderId)
         );
     }
 
